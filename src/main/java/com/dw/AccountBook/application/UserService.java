@@ -41,6 +41,17 @@ public class UserService {
         return userCode == null;
     }
 
+    public boolean logIn(String userId, String userPwd) {
+        User user = userRepository.findUserById(userId);
+        return user != null && bCryptPasswordEncoder.matches(userPwd, user.getPwd());
+    }
+
+    public UserDto findById(String id) {
+        User user = userRepository.findUserById(id);
+
+        return UserDto.toDto(user);
+    }
+
     @Transactional(readOnly = true)
     public UserDto findByInfo(UserIdRequestDto userIdRequestDto) {
         return userRepository.findByInfo(userIdRequestDto.getName(), userIdRequestDto.getEmail())
@@ -51,6 +62,14 @@ public class UserService {
     public String findPwd(UserPwdRequestDto userPwdRequestDto) {
         return userRepository.findPwd(userPwdRequestDto.getId(), userPwdRequestDto.getEmail())
                 .orElse(null);
+    }
+
+    @Transactional
+    public boolean updatePwd(String id, String newPwd) {
+        // 새 비밀번호로 업데이트
+        String encodedNewPwd = bCryptPasswordEncoder.encode(newPwd);  // 새 비밀번호 암호화
+        userRepository.updatePwd(id, encodedNewPwd);  // 암호화된 새 비밀번호로 업데이트
+        return true;
     }
 
     @Transactional
@@ -70,10 +89,11 @@ public class UserService {
 
     public boolean checkInfo(Long userCode, WithDrawDto withDrawDto) {
         User user = userRepository.findByUserCode(userCode);
-
-        return user.getEmail().equals(withDrawDto.getEmail()) && user.getPwd().equals(withDrawDto.getPwd());
+        System.out.println(user.getEmail().equals(withDrawDto.getEmail()) && bCryptPasswordEncoder.matches(withDrawDto.getPwd(), user.getPwd()));
+        return user.getEmail().equals(withDrawDto.getEmail()) && bCryptPasswordEncoder.matches(withDrawDto.getPwd(), user.getPwd());
     }
 
+    @Transactional
     public void deleteUser(Long userCode) {
         userRepository.deleteByUserCode(userCode);
     }

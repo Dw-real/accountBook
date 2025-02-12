@@ -39,7 +39,7 @@ public class SecurityConfig {
         );
 
         // csrf 비활성화
-        http.csrf(csrf -> csrf.disable());
+        //http.csrf(csrf -> csrf.disable());
 
         return http.build();
     }

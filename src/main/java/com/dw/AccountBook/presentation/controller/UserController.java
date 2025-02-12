@@ -30,10 +30,10 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping("/create")
-//    public String createForm() {
-//        return "create";
-//    }
+    @GetMapping("/create")
+    public String createForm() {
+        return "create";
+    }
 
     /*
         회원가입
@@ -55,10 +55,10 @@ public class UserController {
                 .body(new ApiResponse<>(isValid, message, null));
     }
 
-//    @GetMapping("/findId")
-//    public String findIdForm() {
-//        return "findId";
-//    }
+    @GetMapping("/findId")
+    public String findIdForm() {
+        return "findId";
+    }
 
     /*
         ID 찾기
@@ -81,10 +81,10 @@ public class UserController {
 
     }
 
-//    @GetMapping("/findPwd")
-//    public String findPwdForm() {
-//        return "findPwd";
-//    }
+    @GetMapping("/findPwd")
+    public String findPwdForm() {
+        return "findPwd";
+    }
 
     /*
         비밀번호 찾기
@@ -101,9 +101,24 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success("비밀번호 찾기 성공", pwd));
     }
 
+    @PatchMapping("/findPwd")
+    public ResponseEntity<?> updatePwd(@RequestBody FindPwdDto findPwdDto) {
+        boolean isUpdated = userService.updatePwd(findPwdDto.getId(), findPwdDto.getNewPwd());
+
+        if (!isUpdated) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경에 실패했습니다.");
+        }
+
+        return ResponseEntity.ok(ApiResponse.success("비밀번호가 성공적으로 변경되었습니다.", null));
+    }
     /*
         비밀번호 변경
      */
+    @GetMapping("/updatePwd")
+    public String updateForm() {
+        return "updatePwd";
+    }
+
     @PatchMapping("/updatePwd")
     public ResponseEntity<?> updatePwd(HttpSession session, @RequestBody PwdUpdateDto pwdUpdateDto) {
         UserDto userDto = (UserDto) session.getAttribute("loggedInUser");

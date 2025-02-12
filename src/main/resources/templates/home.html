@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta charset="UTF-8">
+    <title>가계부</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="top-right-links">
+  <span id="create">회원 가입</span>
+  <span id="userName" style="display:none;"></span>
+  <span id="logIn">로그인</span>
+  <span id="logout" style="display:none;">로그아웃</span>
+  <span id="findId">아이디 찾기</span>
+  <span id="findPwd">비밀번호 찾기</span>
+</div>
+
+<div class="dialog-overlay" id="dialog-overlay"></div>
+
+<div class="dialog" id="userIdDialog">
+  <ul>
+    <li id="updatePwd">비밀번호 변경</li>
+    <li id="deleteId">계정 탈퇴</li>
+  </ul>
+</div>
+
+<div id="withDrawModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>이메일을 입력하세요</p>
+    <input type="email" id="emailInput">
+    <p>비밀번호를 입력하세요</p>
+    <input type="password" id="pwdInput" placeholder="비밀번호">
+    <button id="confirmDelete">확인</button>
+  </div>
+</div>
+
+<script>
+  window.onload = function() {
+      var loggedIn = [[${loggedIn}]];
+      var userName = "[[${userName}]]";
+
+      toggleDisplay(loggedIn, userName);
+  };
+</script>
+
+<script src="/javascript/home.js"></script>
+</body>
+</html>
