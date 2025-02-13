@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- 가계부 내역 목록 -->
+<table>
+  <thead>
+  <tr>
+    <th>날짜</th>
+    <th>카테고리</th>
+    <th>금액</th>
+    <th>설명</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr th:each="accounting : ${accountingList}">
+    <td th:text="${accounting.date}"></td>
+    <td th:text="${accounting.category}"></td>
+    <td th:text="${accounting.amount}"></td>
+    <td th:text="${accounting.description}"></td>
+  </tr>
+  </tbody>
+
+</table>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination">
+  <a th:href="@{/(page=1)}"> << </a>
+  <a th:href="${accountingList.first} ? '#' : @{/(page=${accountingList.number})}"> < </a>
+  <span th:each="page : ${#numbers.sequence(startPage, endPage)}">
+          <span th:if="${page == accountingList.number + 1}" th:text="${page}" class="current-page"></span>
+          <span th:unless="${page == accountingList.number + 1}">
+              <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+          </span>
+      </span>
+
+  <a th:href="${accountingList.last} ? '#' : @{/(page=${accountingList.number + 2})}"> > </a>
+  <a th:href="@{/(page=${accountingList.totalPages > 0 ? accountingList.totalPages : 1})}"> >> </a>
+</div>
+
+<script>
+
+</script>
+
+</body>
+</html>
+
