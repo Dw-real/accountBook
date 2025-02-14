@@ -35,11 +35,12 @@ public class AccountingService {
     }
 
     public Page<AccountingDto> findAllByUserCode(Long userCode, Pageable pageable) {
-        Page<Accounting> accountingPage = accountingRepository.findByUser_UserCode(userCode, pageable);
-        System.out.println("Total elements: " + accountingPage.getTotalElements());  // 전체 데이터 개수
-        System.out.println("Total pages: " + accountingPage.getTotalPages());  // 전체 페이지 수
-        System.out.println("Content size: " + accountingPage.getContent().size());  // 현재 페이지의 데이터 개수
         return accountingRepository.findByUser_UserCode(userCode, pageable)
+                .map(AccountingDto::toDto);
+    }
+
+    public Page<AccountingDto> findByUserCodeAndMonth(Long userCode, int year, int month, Pageable pageable) {
+        return accountingRepository.findByUserCodeAndMonth(userCode, year, month, pageable)
                 .map(AccountingDto::toDto);
     }
 

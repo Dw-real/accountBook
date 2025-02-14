@@ -8,8 +8,9 @@ import com.dw.AccountBook.presentation.dto.user.UserDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,26 +42,51 @@ public class AccountingController {
         전체 내역 보기
      */
     @GetMapping("/viewAll")
-    public String viewAll(HttpSession session, @PageableDefault(page = 0) Pageable pageable, Model model) {
+    public String viewAll(HttpSession session, Model model) {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
             return "redirect:/login";
         }
 
-        Page<AccountingDto> accountingList = accountingService.findAllByUserCode(loggedInUser.getUserCode(), pageable);
-
-        int blockLimit = 10;
-        int startPage = (((int)(Math.ceil((double)(pageable.getPageNumber() + 1) / blockLimit))) - 1) * blockLimit + 1;
-        int endPage = (accountingList.getTotalPages() == 0) ? 1 : Math.min((startPage + blockLimit - 1), accountingList.getTotalPages());
-
-        model.addAttribute("accountingList", accountingList);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
+        model.addAttribute("userCode", loggedInUser.getUserCode());
 
         return "view";
     }
 
+    @GetMapping("/getMore")
+    @ResponseBody
+    public Page<AccountingDto> getAccountingData(HttpSession session,
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size) {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            return Page.empty();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
+        return accountingService.findAllByUserCode(loggedInUser.getUserCode(), pageable);
+    }
+    /*
+        월별 내역 보기
+     */
+    @GetMapping("/getMonthly")
+    @ResponseBody
+    public Page<AccountingDto> getAccountingByMonthly(HttpSession session,
+                                                      @RequestParam int year,
+                                                      @RequestParam int month,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "10") int size) {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            return Page.empty();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
+        return accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month,  pageable);
+    }
     /*
         삭제
      */

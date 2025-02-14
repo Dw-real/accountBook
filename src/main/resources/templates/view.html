@@ -2,8 +2,11 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>게시판</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <title>가계부 내역</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    .loading { text-align: center; display: none; }
+  </style>
 </head>
 <body>
 
@@ -18,36 +21,56 @@
   </tr>
   </thead>
 
-  <tbody>
-  <tr th:each="accounting : ${accountingList}">
-    <td th:text="${accounting.date}"></td>
-    <td th:text="${accounting.category}"></td>
-    <td th:text="${accounting.amount}"></td>
-    <td th:text="${accounting.description}"></td>
-  </tr>
-  </tbody>
-
+  <tbody id="accountingTable"></tbody>
 </table>
 
-<!-- 페이지 네비게이션 -->
-<div class="pagination">
-  <a th:href="@{/(page=1)}"> << </a>
-  <a th:href="${accountingList.first} ? '#' : @{/(page=${accountingList.number})}"> < </a>
-  <span th:each="page : ${#numbers.sequence(startPage, endPage)}">
-          <span th:if="${page == accountingList.number + 1}" th:text="${page}" class="current-page"></span>
-          <span th:unless="${page == accountingList.number + 1}">
-              <a th:href="@{/(page=${page})}" th:text="${page}"></a>
-          </span>
-      </span>
-
-  <a th:href="${accountingList.last} ? '#' : @{/(page=${accountingList.number + 2})}"> > </a>
-  <a th:href="@{/(page=${accountingList.totalPages > 0 ? accountingList.totalPages : 1})}"> >> </a>
-</div>
+<!-- 로딩 아이콘 -->
+<div class="loading">로딩 중...</div>
 
 <script>
+  let page = 0;
+  let isLoading = false;
+  const userCode = /*[[${userCode}]]*/ null;
 
+  function loadMoreData() {
+      if (isLoading) return;
+      isLoading = true;
+      $(".loading").show();
+
+      $.ajax({
+          url: `/accounting/getMore?page=${page}&size=10`,
+          method: "GET",
+          success: function(data) {
+              if (data.content.length > 0) {
+                  data.content.forEach(accounting => {
+                      $("#accountingTable").append(`
+                          <tr>
+                              <td>${accounting.date}</td>
+                              <td>${accounting.category}</td>
+                              <td>${accounting.amount}</td>
+                              <td>${accounting.description}</td>
+                          </tr>
+                      `);
+                  });
+                  page++;
+              }
+              isLoading = false;
+              $(".loading").hide();
+          }
+      });
+  }
+
+  // 초기 데이터 로드
+  $(document).ready(function() {
+      loadMoreData();
+
+      $(window).scroll(function() {
+          if ($(window).scrollTop() + $(window).height() >= $(document).height() - 50) {
+              loadMoreData();
+          }
+      });
+  });
 </script>
 
 </body>
 </html>
-
