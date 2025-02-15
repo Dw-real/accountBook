@@ -6,51 +6,59 @@
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta charset="UTF-8">
     <title>가계부</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="css/home.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-<!--<div id="header">-->
-<!--    <div id="header_left"></div>-->
-<!--    <div id="header_center"></div>-->
-<!--    <div id="header_right"></div>-->
-<!--</div>-->
-<div class="top-right-links">
-  <span id="create">회원 가입</span>
-  <span id="userName" style="display:none;"></span>
-  <span id="logIn">로그인</span>
-  <span id="logout" style="display:none;">로그아웃</span>
-  <span id="findId">아이디 찾기</span>
-  <span id="findPwd">비밀번호 찾기</span>
-</div>
+<nav class="header">
+    <div class="logo">
+        <img src="image/accountBook.png" width="100%" height="100%">
+    </div>
+    <ul class="menu">
+        <li id="home">홈</li>
+        <li id="viewAll">전체 내역</li>
+        <li id="viewMonthly">월별 내역</li>
+    </ul>
+    <ul class="links">
+        <li id="create">회원 가입</li>
+        <li id="userName" style="display:none;"></li>
+        <li id="logIn">로그인</li>
+        <li id="logout" style="display:none;">로그아웃</li>
+        <li id="findId">아이디 찾기</li>
+        <li id="findPwd">비밀번호 찾기</li>
+    </ul>
+</nav>
+
+<div class="content"></div>
+<div class="footer"></div>
 
 <div class="dialog-overlay" id="dialog-overlay"></div>
 
 <div class="dialog" id="userIdDialog">
-  <ul>
-    <li id="updatePwd">비밀번호 변경</li>
-    <li id="deleteId">계정 탈퇴</li>
-  </ul>
+    <ul>
+        <li id="updatePwd">비밀번호 변경</li>
+        <li id="deleteId">계정 탈퇴</li>
+    </ul>
 </div>
 
 <div id="withDrawModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>이메일을 입력하세요</p>
-    <input type="email" id="emailInput">
-    <p>비밀번호를 입력하세요</p>
-    <input type="password" id="pwdInput" placeholder="비밀번호">
-    <button id="confirmDelete">확인</button>
-  </div>
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>이메일을 입력하세요</p>
+        <input type="email" id="emailInput">
+        <p>비밀번호를 입력하세요</p>
+        <input type="password" id="pwdInput" placeholder="비밀번호">
+        <button id="confirmDelete">확인</button>
+    </div>
 </div>
 
 <script>
-  window.onload = function() {
-      var loggedIn = [[${loggedIn}]];
-      var userName = "[[${userName}]]";
+    window.onload = function() {
+        var loggedIn = [[${loggedIn}]];
+        var userName = "[[${userName}]]";
 
-      toggleDisplay(loggedIn, userName);
-  };
+        toggleDisplay(loggedIn, userName);
+    };
 </script>
 
 <script src="/javascript/home.js"></script>

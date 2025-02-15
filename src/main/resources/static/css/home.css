@@ -1,48 +1,84 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /*
-    헤더
+    header
 */
-/*#header {
-    border: 1px solid red;
-    height: 20%;
-    display : flex;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
 }
 
-#header_left {
-    border: 1px solid red;
-    width: 30%;
+ul {
+    text-decoration: none;
+    color: black;
+}
+
+.logo {
+    width: 150px;  /* 로고의 가로 크기를 고정 (원하는 크기로 조정 가능) */
+    height: 50px;  /* 로고의 세로 크기 조정 */
+    display: flex;
+    align-items: center;  /* 이미지가 중앙 정렬되도록 설정 */
+}
+
+.logo img {
+    width: 100%;
     height: 100%;
+    object-fit: contain;  /* 이미지 비율 유지 */
 }
 
-#header_center {
-    border: 1px solid green;
+.menu {
+    width: 50%;
+    display: flex;
+    color: #b3b3b3;
+    list-style: none;
+    margin-right: auto;
+}
+
+.menu li {
+    padding: 8px 12px;
+}
+
+.links {
     width: 30%;
-    height: 100%;
-    margin-left: 5%;
+    list-style: none;
+    color: #b3b3b3;
+    display: flex;
+    justify-content: flex-end;
 }
 
-#header_right {
-    border: 1px solid green;
-    width: 30%;
-    height: 100%;
-    margin-left: 5%;
-}*/
-
-.top-right-links {
-    position: absolute;
-    top: 30px;
-    right: 20px;
+.links li {
+    padding: 8px 12px;
 }
 
-.top-right-links span {
-    margin-right: 20px;
+.menu li:hover,
+.links li:hover {
     cursor: pointer;
-    font-size: 14px;
-    color: #0073e6;
+    color: #3e3e3e;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+/*
+    content
+*/
+.content {
+    flex-grow: 1;
 }
 
-.top-right-links span:hover {
-    text-decoration: underline;
+/*
+    footer
+*/
+.footer {
+    height: 30vh;
 }
+/*
+    다이얼로그
+*/
 
 .dialog-overlay {
     display: none;
@@ -54,9 +90,6 @@
     z-index: 998;
 }
 
-/*
-    다이얼로그
-*/
 .dialog {
     display: none;
     position: absolute;

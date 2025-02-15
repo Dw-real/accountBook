@@ -1,3 +1,12 @@
+// 홈 메뉴
+document.getElementById("home").addEventListener('click', function() {
+    location.href = "/";
+});
+
+// 전체 내역 보기 메뉴
+document.getElementById("viewAll").addEventListener('click', function(){
+    location.href = "/accounting/viewAll";
+});
 // 회원 가입 버튼
 document.getElementById("create").addEventListener('click', function() {
     location.href = "/user/create"
