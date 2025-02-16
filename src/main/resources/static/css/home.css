@@ -13,6 +13,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
     height: 10vh;
+    border-bottom: 1px solid #eaeaea;
 }
 
 ul {
@@ -68,13 +69,17 @@ ul {
 */
 .content {
     flex-grow: 1;
+    min-height: 0;
+    overflow: auto;
 }
 
 /*
     footer
 */
 .footer {
-    height: 30vh;
+    height: 10vh;
+    min-height: 10vh;
+    max-height: 15vh;
 }
 /*
     다이얼로그
@@ -144,6 +149,7 @@ ul {
 }
 
 #confirmDelete {
+    margin-top: 15px;
     padding: 8px 20px;
     border: none;
     color: white;

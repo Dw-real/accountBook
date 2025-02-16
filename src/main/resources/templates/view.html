@@ -2,32 +2,82 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>가계부 내역</title>
+  <title>전체 내역</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/view.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    .loading { text-align: center; display: none; }
-  </style>
 </head>
 <body>
 
-<!-- 가계부 내역 목록 -->
-<table>
-  <thead>
-  <tr>
-    <th>날짜</th>
-    <th>카테고리</th>
-    <th>금액</th>
-    <th>설명</th>
-  </tr>
-  </thead>
+<nav class="header">
+  <div class="logo">
+    <img src="/image/accountBook.png" width="100%" height="100%">
+  </div>
+  <ul class="menu">
+    <li id="home">홈</li>
+    <li id="viewAll">전체 내역</li>
+    <li id="viewMonthly">월별 내역</li>
+  </ul>
+  <ul class="links">
+    <li id="create">회원 가입</li>
+    <li id="userName" style="display:none;"></li>
+    <li id="logIn">로그인</li>
+    <li id="logout" style="display:none;">로그아웃</li>
+    <li id="findId">아이디 찾기</li>
+    <li id="findPwd">비밀번호 찾기</li>
+  </ul>
+</nav>
 
-  <tbody id="accountingTable"></tbody>
-</table>
+<div class="content">
+  <!-- 가계부 내역 목록 -->
+  <table id="accountingTable">
+    <thead>
+    <tr>
+      <th>날짜</th>
+      <th>카테고리</th>
+      <th>금액</th>
+      <th>설명</th>
+    </tr>
+    </thead>
 
-<!-- 로딩 아이콘 -->
-<div class="loading">로딩 중...</div>
+    <tbody id="breakDown"></tbody>
+  </table>
+
+  <!-- 로딩 아이콘 -->
+  <div class="loading">로딩 중...</div>
+</div>
+
+<div class="footer"></div>
+
+<div class="dialog-overlay" id="dialog-overlay"></div>
+
+<div class="dialog" id="userIdDialog">
+  <ul>
+    <li id="updatePwd">비밀번호 변경</li>
+    <li id="deleteId">계정 탈퇴</li>
+  </ul>
+</div>
+
+<div id="withDrawModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>이메일을 입력하세요</p>
+    <input type="email" id="emailInput">
+    <p>비밀번호를 입력하세요</p>
+    <input type="password" id="pwdInput" placeholder="비밀번호">
+    <br>
+    <button id="confirmDelete">확인</button>
+  </div>
+</div>
 
 <script>
+  window.onload = function() {
+    var loggedIn = [[${loggedIn}]];
+    var userName = "[[${userName}]]";
+
+    toggleDisplay(loggedIn, userName);
+  };
+
   let page = 0;
   let isLoading = false;
   const userCode = /*[[${userCode}]]*/ null;
@@ -38,24 +88,39 @@
       $(".loading").show();
 
       $.ajax({
-          url: `/accounting/getMore?page=${page}&size=10`,
+          url: `/accounting/getMore?page=${page}&size=20`,
           method: "GET",
           success: function(data) {
               if (data.content.length > 0) {
+                  const categoryMap = {
+                      "INCOME" : "수입",
+                      "SHOPPING" : "쇼핑",
+                      "FOOD" : "식비",
+                      "PHONE" : "통신비",
+                      "TRANSPORT" : "교통비",
+                      "CAFE" : "카페, 간식",
+                      "TRAVEL" : "여행",
+                      "HEALTH" : "건강",
+                      "EDUCATION" : "교육",
+                      "INSURANCE" : "보험",
+                      "OTHER" : "기타"
+                  }
                   data.content.forEach(accounting => {
-                      $("#accountingTable").append(`
+                      $("#breakDown").append(`
                           <tr>
                               <td>${accounting.date}</td>
-                              <td>${accounting.category}</td>
-                              <td>${accounting.amount}</td>
+                              <td>${categoryMap[accounting.category] || accounting.category}</td>
+                              <td>${accounting.amount.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW'})}</td>
                               <td>${accounting.description}</td>
                           </tr>
                       `);
                   });
                   page++;
+                  isLoading = false;
+              } else {
+                  $(".loading").hide();
               }
-              isLoading = false;
-              $(".loading").hide();
+
           }
       });
   }
@@ -64,13 +129,14 @@
   $(document).ready(function() {
       loadMoreData();
 
-      $(window).scroll(function() {
-          if ($(window).scrollTop() + $(window).height() >= $(document).height() - 50) {
+      $(".content").scroll(function() {
+          if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
               loadMoreData();
           }
       });
   });
 </script>
 
+<script src="/javascript/home.js"></script>
 </body>
 </html>

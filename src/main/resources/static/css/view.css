@@ -1,0 +1,22 @@
+.loading {
+    text-align: center; display: none;
+}
+
+#accountingTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#accountingTable th, #accountingTable td {
+    padding: 5px;
+    text-align: left;
+}
+
+#accountingTable thead {
+    background-color: #b2ccff;
+    color: white;
+}
+
+#accountingTable tbody tr:nth-child(odd) {
+    background-color: #d9e5ff;
+}

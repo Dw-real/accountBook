@@ -45,11 +45,14 @@ public class AccountingController {
     public String viewAll(HttpSession session, Model model) {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
-        if (loggedInUser == null) {
-            return "redirect:/login";
+        if (loggedInUser != null) { // 로그인 되어있는 상태
+            model.addAttribute("loggedIn", true);
+            model.addAttribute("userCode", loggedInUser.getUserCode());
+            model.addAttribute("userName", loggedInUser.getName());
+        } else { // 로그인 되어있지 않은 상태
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", "");
         }
-
-        model.addAttribute("userCode", loggedInUser.getUserCode());
 
         return "view";
     }
@@ -58,7 +61,7 @@ public class AccountingController {
     @ResponseBody
     public Page<AccountingDto> getAccountingData(HttpSession session,
                                                  @RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size) {
+                                                 @RequestParam(defaultValue = "20") int size) {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
@@ -77,7 +80,7 @@ public class AccountingController {
                                                       @RequestParam int year,
                                                       @RequestParam int month,
                                                       @RequestParam(defaultValue = "0") int page,
-                                                      @RequestParam(defaultValue = "10") int size) {
+                                                      @RequestParam(defaultValue = "20") int size) {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
