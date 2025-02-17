@@ -1,3 +1,7 @@
+document.getElementById("logo").addEventListener('click', function() {
+    location.href = "/";
+});
+
 // 홈 메뉴
 document.getElementById("home").addEventListener('click', function() {
     location.href = "/";
