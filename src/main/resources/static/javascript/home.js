@@ -3,10 +3,16 @@ document.getElementById("home").addEventListener('click', function() {
     location.href = "/";
 });
 
+// 추가하기 메뉴
+document.getElementById("post").addEventListener('click', function(){
+    location.href = "/accounting/post";
+});
+
 // 전체 내역 보기 메뉴
 document.getElementById("viewAll").addEventListener('click', function(){
     location.href = "/accounting/viewAll";
 });
+
 // 회원 가입 버튼
 document.getElementById("create").addEventListener('click', function() {
     location.href = "/user/create"
@@ -70,7 +76,7 @@ function toggleDisplay(loggedIn, userName) {
         document.getElementById('findPwd').style.display = 'none';
         document.getElementById('userName').style.display = 'inline';
         document.getElementById('userName').textContent = userName + "님";
-        document.getElementById('updatePwd').style.display = 'inline';
+        //document.getElementById('updatePwd').style.display = 'inline';
         document.getElementById('logout').style.display = 'inline';
     } else {
         document.getElementById('create').style.display = 'inline';

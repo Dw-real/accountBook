@@ -1,0 +1,20 @@
+<div class="dialog" id="userIdDialog" th:fragment="user-dialog" xmlns:th="http://www.w3.org/1999/xhtml">
+  <ul>
+    <li id="updatePwd">비밀번호 변경</li>
+    <li id="deleteId">계정 탈퇴</li>
+  </ul>
+</div>
+
+<div class="dialog-overlay" id="dialog-overlay" th:fragment="dialog-overlay"></div>
+
+<div id="withDrawModal" class="modal" th:fragment="withDrawModal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>이메일을 입력하세요</p>
+    <input type="email" id="emailInput">
+    <p>비밀번호를 입력하세요</p>
+    <input type="password" id="pwdInput" placeholder="비밀번호">
+    <br>
+    <button id="confirmDelete">확인</button>
+  </div>
+</div>

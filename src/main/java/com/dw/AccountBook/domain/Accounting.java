@@ -19,6 +19,10 @@ public class Accounting {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    private Type type;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(nullable = false)
@@ -36,6 +40,7 @@ public class Accounting {
 
     public static Accounting toEntity(AccountingDto accountingDto, User user) {
         Accounting accounting = new Accounting();
+        accounting.setType(accountingDto.getType());
         accounting.setCategory(accountingDto.getCategory());
         accounting.setAmount(accountingDto.getAmount());
         accounting.setDescription(accounting.getDescription());

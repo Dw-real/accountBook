@@ -1,7 +1,9 @@
 package com.dw.AccountBook.domain;
 
 public enum Category {
-    INCOME, // 수입
+    SALARY, // 급여
+    ALLOWANCE, // 용돈
+    INTEREST, // 이자
     SHOPPING, // 쇼핑
     FOOD, // 식비
     PHONE, // 통신비

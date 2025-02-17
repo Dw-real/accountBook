@@ -8,25 +8,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-
-<nav class="header">
-  <div class="logo">
-    <img src="/image/accountBook.png" width="100%" height="100%">
-  </div>
-  <ul class="menu">
-    <li id="home">홈</li>
-    <li id="viewAll">전체 내역</li>
-    <li id="viewMonthly">월별 내역</li>
-  </ul>
-  <ul class="links">
-    <li id="create">회원 가입</li>
-    <li id="userName" style="display:none;"></li>
-    <li id="logIn">로그인</li>
-    <li id="logout" style="display:none;">로그아웃</li>
-    <li id="findId">아이디 찾기</li>
-    <li id="findPwd">비밀번호 찾기</li>
-  </ul>
-</nav>
+<div th:replace="~{header :: header}"></div>
 
 <div class="content">
   <!-- 가계부 내역 목록 -->
@@ -34,9 +16,10 @@
     <thead>
     <tr>
       <th>날짜</th>
+      <th>구분</th>
       <th>카테고리</th>
       <th>금액</th>
-      <th>설명</th>
+      <th>메모</th>
     </tr>
     </thead>
 
@@ -48,35 +31,16 @@
 </div>
 
 <div class="footer"></div>
-
-<div class="dialog-overlay" id="dialog-overlay"></div>
-
-<div class="dialog" id="userIdDialog">
-  <ul>
-    <li id="updatePwd">비밀번호 변경</li>
-    <li id="deleteId">계정 탈퇴</li>
-  </ul>
-</div>
-
-<div id="withDrawModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>이메일을 입력하세요</p>
-    <input type="email" id="emailInput">
-    <p>비밀번호를 입력하세요</p>
-    <input type="password" id="pwdInput" placeholder="비밀번호">
-    <br>
-    <button id="confirmDelete">확인</button>
-  </div>
-</div>
+<div th:replace="~{user-dialog :: user-dialog}"></div>
+<div th:replace="~{user-dialog :: dialog-overlay}"></div>
+<div th:replace="~{user-dialog :: withDrawModal}"></div>
 
 <script>
-  window.onload = function() {
-    var loggedIn = [[${loggedIn}]];
-    var userName = "[[${userName}]]";
-
-    toggleDisplay(loggedIn, userName);
-  };
+  document.addEventListener("DOMContentLoaded", function () {
+      var loggedIn = [[${loggedIn}]];
+      var userName = "[[${userName}]]";
+      toggleDisplay(loggedIn, userName);
+  });
 
   let page = 0;
   let isLoading = false;
@@ -92,8 +56,15 @@
           method: "GET",
           success: function(data) {
               if (data.content.length > 0) {
-                  const categoryMap = {
+                  const typeMap = {
                       "INCOME" : "수입",
+                      "EXPENSE" : "지출"
+                  }
+
+                  const categoryMap = {
+                      "SALARY" : "월급",
+                      "ALLOWANCE" : "용돈",
+                      "INTEREST" : "이자",
                       "SHOPPING" : "쇼핑",
                       "FOOD" : "식비",
                       "PHONE" : "통신비",
@@ -105,10 +76,12 @@
                       "INSURANCE" : "보험",
                       "OTHER" : "기타"
                   }
+
                   data.content.forEach(accounting => {
                       $("#breakDown").append(`
                           <tr>
                               <td>${accounting.date}</td>
+                              <td>${accounting.type}</td>
                               <td>${categoryMap[accounting.category] || accounting.category}</td>
                               <td>${accounting.amount.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW'})}</td>
                               <td>${accounting.description}</td>

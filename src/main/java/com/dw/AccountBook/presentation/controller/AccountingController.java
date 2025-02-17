@@ -1,10 +1,10 @@
 package com.dw.AccountBook.presentation.controller;
 
 import com.dw.AccountBook.application.AccountingService;
-import com.dw.AccountBook.domain.Accounting;
 import com.dw.AccountBook.presentation.ApiResponse;
 import com.dw.AccountBook.presentation.dto.accounting.AccountingDto;
 import com.dw.AccountBook.presentation.dto.user.UserDto;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/accounting")
@@ -28,6 +31,18 @@ public class AccountingController {
         this.accountingService = accountingService;
     }
 
+    @GetMapping("/post")
+    public String registerForm(HttpSession session, HttpServletResponse response, Model model) throws IOException {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            showAlert(response);
+            return null;
+        }
+
+        model.addAttribute("user", loggedInUser);
+        return "post";
+    }
     /*
         작성
      */
@@ -98,5 +113,12 @@ public class AccountingController {
         accountingService.delete(id);
 
         return "redirect:/accounting/view";
+    }
+
+    private void showAlert(HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>alert('로그인이 필요합니다'); history.back();</script>");
+        out.flush();
     }
 }

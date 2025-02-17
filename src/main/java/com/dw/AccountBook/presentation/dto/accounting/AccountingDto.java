@@ -2,6 +2,7 @@ package com.dw.AccountBook.presentation.dto.accounting;
 
 import com.dw.AccountBook.domain.Accounting;
 import com.dw.AccountBook.domain.Category;
+import com.dw.AccountBook.domain.Type;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AccountingDto {
     private Long id;
+    private Type type;
     private Category category;
     private Long amount;
     private String description;
@@ -22,6 +24,7 @@ public class AccountingDto {
     public static AccountingDto toDto(Accounting accounting) {
         AccountingDto accountingDto = new AccountingDto();
         accountingDto.setId(accounting.getId());
+        accountingDto.setType(accounting.getType());
         accountingDto.setCategory(accounting.getCategory());
         accountingDto.setAmount(accounting.getAmount());
         accountingDto.setDescription(accounting.getDescription());
