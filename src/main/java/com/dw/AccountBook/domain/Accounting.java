@@ -43,7 +43,7 @@ public class Accounting {
         accounting.setType(accountingDto.getType());
         accounting.setCategory(accountingDto.getCategory());
         accounting.setAmount(accountingDto.getAmount());
-        accounting.setDescription(accounting.getDescription());
+        accounting.setDescription(accountingDto.getDescription());
         accounting.setDate(accountingDto.getDate());
         accounting.setUser(user);
 

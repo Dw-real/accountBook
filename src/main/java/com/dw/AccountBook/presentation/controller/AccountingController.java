@@ -35,12 +35,18 @@ public class AccountingController {
     public String registerForm(HttpSession session, HttpServletResponse response, Model model) throws IOException {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
-        if (loggedInUser == null) {
+        if (loggedInUser != null) { // 로그인 되어있는 상태
+            model.addAttribute("loggedIn", true);
+            model.addAttribute("userCode", loggedInUser.getUserCode());
+            model.addAttribute("userName", loggedInUser.getName());
+            model.addAttribute("user", loggedInUser);
+        } else { // 로그인 되어있지 않은 상태
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", "");
             showAlert(response);
             return null;
         }
 
-        model.addAttribute("user", loggedInUser);
         return "post";
     }
     /*

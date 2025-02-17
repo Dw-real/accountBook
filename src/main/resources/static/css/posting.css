@@ -4,8 +4,9 @@ form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
   max-width: 400px;
-  margin: 20px auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -95,11 +96,15 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.submitBtn {
+    justify-content: center;
+    text-align: center;
+}
+
 /* 제출 버튼 스타일 */
 input[type="submit"] {
   width: 30%;
   background-color: #00bbff;
-  margin-top: 24px;
   color: white;
   padding: 10px;
   font-size: 18px;

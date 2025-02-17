@@ -42,6 +42,15 @@
       toggleDisplay(loggedIn, userName);
   });
 
+  $(document).ready(function() {
+      loadMoreData();
+      $(".content").scroll(function() {
+          if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
+              loadMoreData();
+          }
+      });
+  });
+
   let page = 0;
   let isLoading = false;
   const userCode = /*[[${userCode}]]*/ null;
@@ -81,33 +90,27 @@
                       $("#breakDown").append(`
                           <tr>
                               <td>${accounting.date}</td>
-                              <td>${accounting.type}</td>
+                              <td>${typeMap[accounting.type] || accounting.type}</td>
                               <td>${categoryMap[accounting.category] || accounting.category}</td>
                               <td>${accounting.amount.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW'})}</td>
                               <td>${accounting.description}</td>
                           </tr>
                       `);
                   });
+
                   page++;
-                  isLoading = false;
+                  // 20개 이하일 때 isLoading을 false로 설정
+                  if (data.content.length < 20) {
+                      isLoading = false;
+                      $(".loading").hide();
+                  }
               } else {
                   $(".loading").hide();
               }
-
           }
       });
   }
 
-  // 초기 데이터 로드
-  $(document).ready(function() {
-      loadMoreData();
-
-      $(".content").scroll(function() {
-          if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
-              loadMoreData();
-          }
-      });
-  });
 </script>
 
 <script src="/javascript/home.js"></script>
