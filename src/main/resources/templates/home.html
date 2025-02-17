@@ -10,21 +10,21 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="~{header :: header}"></div>
-<div class="content"></div>
-<div class="footer"></div>
-<div th:replace="~{user-dialog :: user-dialog}"></div>
-<div th:replace="~{user-dialog :: dialog-overlay}"></div>
-<div th:replace="~{user-dialog :: withDrawModal}"></div>
+    <div th:replace="~{header :: header}"></div>
+    <div class="content"></div>
+    <div class="footer"></div>
+    <div th:replace="~{user-dialog :: user-dialog}"></div>
+    <div th:replace="~{user-dialog :: dialog-overlay}"></div>
+    <div th:replace="~{user-dialog :: withDrawModal}"></div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var loggedIn = [[${loggedIn}]];
-        var userName = "[[${userName}]]";
-        toggleDisplay(loggedIn, userName);
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loggedIn = [[${loggedIn}]];
+            var userName = "[[${userName}]]";
+            toggleDisplay(loggedIn, userName);
+        });
+    </script>
 
-<script src="/javascript/home.js"></script>
+    <script src="/javascript/home.js"></script>
 </body>
 </html>

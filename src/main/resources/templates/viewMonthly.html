@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>월별 내역 보기</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/viewMonthly.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+  <div th:replace="~{header :: header}"></div>
+  <div class="month-select">
+    <button id="prevBtn"></button>
+    <h2 id="currentMonth">  </h2>
+    <button id="nextBtn"></button>
+  </div>
+  <div class="calendar-container">
+    <div class="calendar-days">
+      <div class="day">일</div>
+      <div class="day">월</div>
+      <div class="day">화</div>
+      <div class="day">수</div>
+      <div class="day">목</div>
+      <div class="day">금</div>
+      <div class="day">토</div>
+    </div>
+    <div class="calendar-dates" id="calendarDates"></div>
+  </div>
+  <div class="footer"></div>
+  <div th:replace="~{user-dialog :: user-dialog}"></div>
+  <div th:replace="~{user-dialog :: dialog-overlay}"></div>
+  <div th:replace="~{user-dialog :: withDrawModal}"></div>
+
+  <script src="/javascript/home.js"></script>
+  <script src="/javascript/viewMonthly.js"></script>
+</body>
+</html>

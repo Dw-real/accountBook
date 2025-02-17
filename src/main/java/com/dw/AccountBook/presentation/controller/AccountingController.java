@@ -95,6 +95,23 @@ public class AccountingController {
     /*
         월별 내역 보기
      */
+
+    @GetMapping("/viewMonthly")
+    public String viewMonthly(HttpSession session, Model model) {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser != null) { // 로그인 되어있는 상태
+            model.addAttribute("loggedIn", true);
+            model.addAttribute("userCode", loggedInUser.getUserCode());
+            model.addAttribute("userName", loggedInUser.getName());
+        } else { // 로그인 되어있지 않은 상태
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", "");
+        }
+
+        return "viewMonthly";
+    }
+
     @GetMapping("/getMonthly")
     @ResponseBody
     public Page<AccountingDto> getAccountingByMonthly(HttpSession session,

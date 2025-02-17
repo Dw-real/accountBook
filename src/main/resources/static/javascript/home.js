@@ -17,6 +17,9 @@ document.getElementById("viewAll").addEventListener('click', function(){
     location.href = "/accounting/viewAll";
 });
 
+document.getElementById("viewMonthly").addEventListener('click', function(){
+    location.href = "/accounting/viewMonthly"
+});
 // 회원 가입 버튼
 document.getElementById("create").addEventListener('click', function() {
     location.href = "/user/create"
