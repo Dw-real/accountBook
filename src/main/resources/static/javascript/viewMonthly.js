@@ -7,35 +7,55 @@ const today = new Date(); // 현재 날짜
 let currentMonth = today.getMonth(); // 0~11
 let currentYear = today.getFullYear();
 
+let page = 0;
+let isLoading = false;
+let dailySummary = {}; // 날짜별 수입, 지출 계산
+
 // 월별 캘린더 생성
 function renderCalendar() {
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 현재 월의 총 일수
-    const startDayOfWeek = firstDayOfMonth.getDay(); // 현재 월의 1일의 요일
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const startDayOfWeek = firstDayOfMonth.getDay();
     currentMonthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
 
-    calendarDates.innerHTML = ""; // 일자를 표시하는 그리드 컨테이너 비우기
+    calendarDates.innerHTML = "";
 
-    // 빈 날짜(이전 달)
     for (let i = 0; i < startDayOfWeek; i++) {
         const emptyDate = document.createElement("div");
-        // 빈 날짜를 나타내는 div 요소를 생성.
         emptyDate.classList.add("date", "empty");
-        // 생성한 div 요소에 "date"와 "empty" 클래스를 추가.
         calendarDates.appendChild(emptyDate);
-        // 생성한 빈 날짜 요소를 캘린더 그리드에 추가.
-      }
+    }
 
-      // 현재 달의 날짜
-      for (let i = 1; i <= daysInMonth; i++) {
+    for (let i = 1; i <= daysInMonth; i++) {
         const dateElement = document.createElement("div");
         dateElement.classList.add("date");
 
         const dateNum = document.createElement("span");
         dateNum.textContent = i;
         dateElement.appendChild(dateNum);
+
+        const day = String(i).padStart(2, '0');
+        const month = String(currentMonth + 1).padStart(2, '0');
+        const dateKey = `${currentYear}-${month}-${day}`;
+
+        if (dailySummary[dateKey]) {
+            const incomeEl = document.createElement("p");
+            incomeEl.classList.add("income");
+            incomeEl.textContent = `+${dailySummary[dateKey].income.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })}`;
+
+            const expenseEl = document.createElement("p");
+            expenseEl.classList.add("expense");
+            expenseEl.textContent = `-${dailySummary[dateKey].expense.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })}`;
+
+            if (dailySummary[dateKey].income != 0)
+                dateElement.appendChild(incomeEl);
+
+            if (dailySummary[dateKey].expense != 0)
+                dateElement.appendChild(expenseEl);
+        }
+
         calendarDates.appendChild(dateElement);
-      }
+    }
 }
 
 renderCalendar(); // 초기 달력 렌더링
@@ -63,6 +83,7 @@ nextBtn.addEventListener("click", () => {
 function resetAndLoadData() {
     page = 0;
     isLoading = false;
+    dailySummary = {};
     $("#breakDown").empty(); // 기존 데이터 초기화
     loadMoreData();
 }
@@ -75,9 +96,6 @@ $(document).ready(function() {
       }
   });
 });
-
-let page = 0;
-let isLoading = false;
 
 function loadMoreData() {
   if (isLoading) return;
@@ -92,7 +110,7 @@ function loadMoreData() {
               const typeMap = {
                   "INCOME" : "수입",
                   "EXPENSE" : "지출"
-              }
+              };
 
               const categoryMap = {
                   "SALARY" : "월급",
@@ -108,9 +126,25 @@ function loadMoreData() {
                   "EDUCATION" : "교육",
                   "INSURANCE" : "보험",
                   "OTHER" : "기타"
-              }
+              };
 
               data.content.forEach(accounting => {
+                  const dateObj = new Date(accounting.date);
+                  const year = dateObj.getFullYear();
+                  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                  const day = String(dateObj.getDate()).padStart(2, '0');
+                  const dateKey = `${year}-${month}-${day}`; // YYYY-MM-DD 형식
+
+                  if (!dailySummary[dateKey]) {
+                      dailySummary[dateKey] = { income: 0, expense: 0 };
+                  }
+
+                  if (accounting.type === "INCOME") {
+                      dailySummary[dateKey].income += accounting.amount;
+                  } else if (accounting.type === "EXPENSE") {
+                      dailySummary[dateKey].expense += accounting.amount;
+                  }
+
                   $("#breakDown").append(`
                       <tr>
                           <td>${accounting.date}</td>
@@ -123,11 +157,11 @@ function loadMoreData() {
               });
 
               page++;
-              // 20개 이하일 때 isLoading을 false로 설정
               if (data.content.length < 20) {
                   isLoading = false;
                   $(".loading").hide();
               }
+              renderCalendar();
           } else {
               $(".loading").hide();
           }

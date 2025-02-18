@@ -33,6 +33,13 @@
   <div th:replace="~{user-dialog :: dialog-overlay}"></div>
   <div th:replace="~{user-dialog :: withDrawModal}"></div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loggedIn = [[${loggedIn}]];
+        var userName = "[[${userName}]]";
+        toggleDisplay(loggedIn, userName);
+    });
+  </script>
   <script src="/javascript/home.js"></script>
   <script src="/javascript/viewMonthly.js"></script>
 </body>
