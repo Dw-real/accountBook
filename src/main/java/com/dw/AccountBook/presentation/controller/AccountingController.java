@@ -33,20 +33,7 @@ public class AccountingController {
 
     @GetMapping("/post")
     public String registerForm(HttpSession session, HttpServletResponse response, Model model) throws IOException {
-        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
-
-        if (loggedInUser != null) { // 로그인 되어있는 상태
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("userCode", loggedInUser.getUserCode());
-            model.addAttribute("userName", loggedInUser.getName());
-            model.addAttribute("user", loggedInUser);
-        } else { // 로그인 되어있지 않은 상태
-            model.addAttribute("loggedIn", false);
-            model.addAttribute("userName", "");
-            showAlert(response);
-            return null;
-        }
-
+        setUserSessionAttributes(session, response, model);
         return "post";
     }
     /*
@@ -63,8 +50,8 @@ public class AccountingController {
         전체 내역 보기
      */
     @GetMapping("/viewAll")
-    public String viewAll(HttpSession session, Model model) {
-        setUserSessionAttributes(session, model);
+    public String viewAll(HttpSession session, HttpServletResponse response, Model model) throws IOException {
+        setUserSessionAttributes(session, response, model);
         return "view";
     }
 
@@ -87,8 +74,8 @@ public class AccountingController {
      */
 
     @GetMapping("/viewMonthly")
-    public String viewMonthly(HttpSession session, Model model) {
-        setUserSessionAttributes(session, model);
+    public String viewMonthly(HttpSession session, HttpServletResponse response, Model model) throws IOException {
+        setUserSessionAttributes(session, response, model);
         return "viewMonthly";
     }
 
@@ -118,7 +105,7 @@ public class AccountingController {
         return "redirect:/accounting/view";
     }
 
-    private void setUserSessionAttributes(HttpSession session, Model model) {
+    private void setUserSessionAttributes(HttpSession session, HttpServletResponse response, Model model) throws IOException {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser != null) { // 로그인 되어있는 상태
@@ -128,6 +115,7 @@ public class AccountingController {
         } else { // 로그인 되어있지 않은 상태
             model.addAttribute("loggedIn", false);
             model.addAttribute("userName", "");
+            showAlert(response);
         }
     }
 

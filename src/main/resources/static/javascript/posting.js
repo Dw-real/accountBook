@@ -34,7 +34,7 @@ $(document).ready(function() {
                 amount: amount,
                 description: description,
                 date: date,
-                userCode: user.userCode
+                userCode: userCode
             }),
             success: function(response) {
                 window.location.href = "/";
