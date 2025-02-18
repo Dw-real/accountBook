@@ -64,17 +64,7 @@ public class AccountingController {
      */
     @GetMapping("/viewAll")
     public String viewAll(HttpSession session, Model model) {
-        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
-
-        if (loggedInUser != null) { // 로그인 되어있는 상태
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("userCode", loggedInUser.getUserCode());
-            model.addAttribute("userName", loggedInUser.getName());
-        } else { // 로그인 되어있지 않은 상태
-            model.addAttribute("loggedIn", false);
-            model.addAttribute("userName", "");
-        }
-
+        setUserSessionAttributes(session, model);
         return "view";
     }
 
@@ -98,17 +88,7 @@ public class AccountingController {
 
     @GetMapping("/viewMonthly")
     public String viewMonthly(HttpSession session, Model model) {
-        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
-
-        if (loggedInUser != null) { // 로그인 되어있는 상태
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("userCode", loggedInUser.getUserCode());
-            model.addAttribute("userName", loggedInUser.getName());
-        } else { // 로그인 되어있지 않은 상태
-            model.addAttribute("loggedIn", false);
-            model.addAttribute("userName", "");
-        }
-
+        setUserSessionAttributes(session, model);
         return "viewMonthly";
     }
 
@@ -136,6 +116,19 @@ public class AccountingController {
         accountingService.delete(id);
 
         return "redirect:/accounting/view";
+    }
+
+    private void setUserSessionAttributes(HttpSession session, Model model) {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser != null) { // 로그인 되어있는 상태
+            model.addAttribute("loggedIn", true);
+            model.addAttribute("userCode", loggedInUser.getUserCode());
+            model.addAttribute("userName", loggedInUser.getName());
+        } else { // 로그인 되어있지 않은 상태
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", "");
+        }
     }
 
     private void showAlert(HttpServletResponse response) throws IOException {
