@@ -1,99 +1,99 @@
 /* 기본 폼 스타일 */
 form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* 입력 필드와 라벨 정렬 */
 .form-row {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
 }
 
 /* 라디오 버튼 그룹 */
 .typeGroup {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 /* 라벨 스타일 */
 label {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 /* 버튼 스타일 */
 .btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 /* 수입/지출 버튼 색상 */
 .income {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 
 .expense {
-  background-color: #F44336;
-  color: white;
+    background-color: #F44336;
+    color: white;
 }
 
 /* 라디오 버튼 숨기기 */
 input[type="radio"] {
-  display: none;
+    display: none;
 }
 
 /* 선택된 라디오 버튼 강조 */
 input[type="radio"]:checked + label {
-  border: 2px solid black;
-  font-weight: bold;
+    border: 2px solid black;
+    font-weight: bold;
 }
 
 /* 입력 필드 스타일 */
 input[type="number"],
 input[type="text"],
 select {
-  width: 95%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #b2ccff;
-  border-radius: 5px;
-  outline: none;
-  transition: all 0.3s ease;
+    width: 95%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #b2ccff;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
 /* 포커스 시 강조 */
 input[type="number"]:focus,
 input[type="text"]:focus,
 select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 /* Chrome, Safari, Edge, Opera */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox  */
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .submitBtn {
@@ -103,20 +103,20 @@ input[type="number"] {
 
 /* 제출 버튼 스타일 */
 input[type="submit"] {
-  width: 30%;
-  background-color: #00bbff;
-  color: white;
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    width: 30%;
+    background-color: #00bbff;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 input[type="date"] {
-  padding: 8px;
-  font-size: 16px;
-  border: 2px solid #b2ccff;
-  border-radius: 5px;
-  cursor: pointer;
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid #b2ccff;
+    border-radius: 5px;
+    cursor: pointer;
 }

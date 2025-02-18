@@ -34,6 +34,7 @@ function renderCalendar() {
         dateNum.textContent = i;
         dateElement.appendChild(dateNum);
 
+        // YYYY-MM-DD 형식으로 키를 만들기 위함
         const day = String(i).padStart(2, '0');
         const month = String(currentMonth + 1).padStart(2, '0');
         const dateKey = `${currentYear}-${month}-${day}`;
