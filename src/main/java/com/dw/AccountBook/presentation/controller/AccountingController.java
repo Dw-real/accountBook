@@ -116,7 +116,9 @@ public class AccountingController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         accountingService.delete(id);
-        return ResponseEntity.ok(ApiResponse.success("삭제 성공", id));
+        AccountingDto deletedAccounting = accountingService.findById(id);
+
+        return ResponseEntity.ok(ApiResponse.success("삭제 성공", deletedAccounting));
     }
 
     private void setUserSessionAttributes(HttpSession session, HttpServletResponse response, Model model) throws IOException {
