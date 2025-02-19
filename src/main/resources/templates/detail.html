@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <title>내역 조회</title>
+  <link rel="stylesheet" href="/css/detail.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script th:inline="javascript">
+    var accountingData = {
+        userCode: [[${userCode}]],
+        id: [[${accounting.id}]],
+        type: [[${accounting.type}]],
+        category: [[${accounting.category}]],
+        amount: [[${accounting.amount}]],
+        description: [[${accounting.description}]]
+    };
+  </script>
+</head>
+<body>
+  <div class="detailWindow">
+    <label for="date">날짜: </label>
+    <span id="date" th:text="${accounting.date}"></span>
+    <br>
+    <label>구분: </label>
+    <th:block th:switch="${accounting.type.name()}">
+      <span th:case="INCOME" style="color: green;">수입</span>
+      <span th:case="EXPENSE" style="color: red;">지출</span>
+    </th:block>
+    <br>
+    <label>카테고리: </label>
+    <th:block th:switch="${accounting.category.name()}">
+      <span th:case="SALARY">급여</span>
+      <span th:case="ALLOWANCE">용돈</span>
+      <span th:case="INTEREST">이자</span>
+      <span th:case="SHOPPING">쇼핑</span>
+      <span th:case="FOOD">식비</span>
+      <span th:case="PHONE">통신비</span>
+      <span th:case="TRANSPORT">교통비</span>
+      <span th:case="CAFE">카페, 간식</span>
+      <span th:case="TRAVEL">여행</span>
+      <span th:case="HEALTH">건강</span>
+      <span th:case="EDUCATION">교육</span>
+      <span th:case="INSURANCE">보험</span>
+      <span th:case="OTHER">기타</span>
+    </th:block>
+    <br>
+    <label for="amount">금액: </label>
+    <span id="amount" th:text="'₩' + ${#numbers.formatInteger(accounting.amount, 0, 'COMMA')}"></span>
+    <br>
+    <label for="description">메모: </label>
+    <span id="description" th:text="${accounting.description}"></span>
+
+    <div class="button-group">
+      <button id="listBtn" onclick="listReq()">목록</button>
+      <button id="updateBtn" onclick="updateReq()">수정</button>
+      <button id="deleteBtn" onclick="deleteReq()">삭제</button>
+    </div>
+
+  </div>
+  <script src="/javascript/detail.js"></script>
+</body>
+</html>

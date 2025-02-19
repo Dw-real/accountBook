@@ -4,6 +4,7 @@ import com.dw.AccountBook.application.AccountingService;
 import com.dw.AccountBook.presentation.ApiResponse;
 import com.dw.AccountBook.presentation.dto.accounting.AccountingDto;
 import com.dw.AccountBook.presentation.dto.user.UserDto;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,16 +94,29 @@ public class AccountingController {
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
-        return accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month,  pageable);
+        return accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month, pageable);
+    }
+
+    /*
+        조회
+     */
+    @GetMapping("/lookUp/{id}")
+    public String lookUp(@PathVariable Long id, HttpSession session, HttpServletResponse response,
+                         Model model) throws IOException {
+        setUserSessionAttributes(session, response, model);
+        AccountingDto accountingDto = accountingService.findById(id);
+
+        model.addAttribute("accounting", accountingDto);
+
+        return "detail";
     }
     /*
         삭제
      */
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         accountingService.delete(id);
-
-        return "redirect:/accounting/view";
+        return ResponseEntity.ok(ApiResponse.success("삭제 성공", id));
     }
 
     private void setUserSessionAttributes(HttpSession session, HttpServletResponse response, Model model) throws IOException {
@@ -122,7 +136,7 @@ public class AccountingController {
     private void showAlert(HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("<script>alert('로그인이 필요합니다'); history.back();</script>");
+        out.println("<script>alert('로그인이 필요합니다'); location.href='/logIn'</script>");
         out.flush();
     }
 }

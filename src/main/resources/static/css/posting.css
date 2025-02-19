@@ -104,7 +104,7 @@ input[type="number"] {
 /* 제출 버튼 스타일 */
 input[type="submit"] {
     width: 30%;
-    background-color: #00bbff;
+    background-color: #d9e5ff;
     color: white;
     padding: 10px;
     font-size: 18px;

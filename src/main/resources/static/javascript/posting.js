@@ -40,7 +40,7 @@ updateCategories(expenseCategories);
 // 버튼 클릭 시 해당 카테고리로 업데이트
 incomeRadio.addEventListener("change", () => {
     if (incomeRadio.checked) {
-    updateCategories(incomeCategories);
+        updateCategories(incomeCategories);
     }
 });
 

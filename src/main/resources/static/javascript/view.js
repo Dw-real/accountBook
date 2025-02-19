@@ -44,7 +44,11 @@ function loadMoreData() {
               data.content.forEach(accounting => {
                   $("#breakDown").append(`
                       <tr>
-                          <td>${accounting.date}</td>
+                          <td>
+                              <a href="/accounting/lookUp/${accounting.id}" style="color: inherit; text-decoration: none;">
+                                  ${accounting.date}
+                              </a>
+                          </td>
                           <td>${typeMap[accounting.type] || accounting.type}</td>
                           <td>${categoryMap[accounting.category] || accounting.category}</td>
                           <td>${accounting.amount.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW'})}</td>

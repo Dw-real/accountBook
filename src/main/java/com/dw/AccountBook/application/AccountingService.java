@@ -45,6 +45,17 @@ public class AccountingService {
     }
 
     @Transactional
+    public AccountingDto findById(Long id) {
+        Optional<Accounting> optionalAccounting = accountingRepository.findById(id);
+        if (optionalAccounting.isPresent()) {
+            Accounting accounting = optionalAccounting.get();
+            return AccountingDto.toDto(accounting);
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
     public void delete(Long id) {
         accountingRepository.deleteById(id);
     }
