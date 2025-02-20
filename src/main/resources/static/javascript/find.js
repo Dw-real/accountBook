@@ -26,7 +26,7 @@ function findUserId() {
         }),
         success: function(response) {
             if (response) {
-                showUserInfoDiv.style.display = "block";
+                showUserInfoDiv.style.display = "flex";
                 foundUserId.textContent = response.data;
             } else {
                 alert("회원 정보를 가져오는 중 예상치 못한 문제가 발생했습니다.");
@@ -71,7 +71,7 @@ function findUserPwd() {
         }),
         success: function(response) {
             if (response) {
-                updatePwd.style.display = "block";
+                updatePwd.style.display = "flex";
                 document.getElementById("userId").readOnly = true;
             } else {
                 alert("회원 정보를 가져오는 중 예상치 못한 문제가 발생했습니다.");
