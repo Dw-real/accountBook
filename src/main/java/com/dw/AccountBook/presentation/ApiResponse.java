@@ -2,9 +2,11 @@ package com.dw.AccountBook.presentation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public class ApiResponse<T> {
     private boolean success;
     private String message;
