@@ -70,10 +70,10 @@ public class AccountingController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
         return accountingService.findAllByUserCode(loggedInUser.getUserCode(), pageable);
     }
+
     /*
         월별 내역 보기
      */
-
     @GetMapping("/viewMonthly")
     public String viewMonthly(HttpSession session, HttpServletResponse response, Model model) throws IOException {
         setUserSessionAttributes(session, response, model);
@@ -109,6 +109,27 @@ public class AccountingController {
         model.addAttribute("accounting", accountingDto);
 
         return "detail";
+    }
+
+    /*
+        수정
+     */
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable Long id, Model model) {
+        AccountingDto accountingDto = accountingService.findById(id);
+
+        model.addAttribute("accounting", accountingDto);
+
+        return "update";
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> update(@RequestBody AccountingDto accountingDto, Model model) {
+        AccountingDto updatedAccounting = accountingService.update(accountingDto);
+
+        model.addAttribute("accounting", updatedAccounting);
+
+        return ResponseEntity.ok(ApiResponse.success("수정 성공", updatedAccounting));
     }
     /*
         삭제

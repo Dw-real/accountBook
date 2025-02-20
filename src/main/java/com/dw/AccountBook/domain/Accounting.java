@@ -49,4 +49,13 @@ public class Accounting {
 
         return accounting;
     }
+    
+    public static void updateEntity(Accounting accounting, AccountingDto accountingDto, User user) {
+        accounting.setType(accountingDto.getType());
+        accounting.setCategory(accountingDto.getCategory());
+        accounting.setAmount(accountingDto.getAmount());
+        accounting.setDescription(accountingDto.getDescription());
+        accounting.setDate(accountingDto.getDate());
+        accounting.setUser(user);
+    }
 }

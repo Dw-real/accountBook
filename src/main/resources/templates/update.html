@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <title>수정하기</title>
+    <link rel="stylesheet" href="/css/posting.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+      var accountingData = {
+          userCode: [[${accounting.userCode}]],
+          id: [[${accounting.id}]],
+          type: [[${accounting.type}]],
+          category: [[${accounting.category}]],
+          amount: [[${accounting.amount}]],
+          description: [[${accounting.description}]],
+          date: [[${accounting.date}]]
+      };
+    </script>
+</head>
+<body>
+  <form id="updateForm">
+    <div class="form-row">
+      <div class="typeGroup">
+        <input type="radio" id="income" name="type" value="INCOME">
+        <label for="income" class="btn income">수입</label>
+        <input type="radio" id="expense" name="type" value="EXPENSE" checked>
+        <label for="expense" class="btn expense">지출</label>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="category">카테고리: </label>
+      <select id="category" name="category">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="amount">금액: </label>
+      <input type="number" id="amount" name="amount" min="0" placeholder="금액">
+    </div>
+
+    <div class="form-row">
+      <label for="description">메모: </label>
+      <input type="text" id="description" placeholder="메모">
+    </div>
+
+    <div class="form-row">
+      <label for="calendar">날짜 선택: </label>
+      <input id="calendar" type="date">
+    </div>
+
+    <div class="submitBtn">
+      <input type="submit" id="submitBtn" value="완료">
+    </div>
+  </form>
+
+  <script src="/javascript/categories.js"></script>
+  <script src="/javascript/update.js"></script>
+</body>
+</html>

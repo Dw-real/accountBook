@@ -56,6 +56,19 @@ public class AccountingService {
     }
 
     @Transactional
+    public AccountingDto update(AccountingDto accountingDto) {
+        Accounting existAccounting = accountingRepository.findById(accountingDto.getId())
+                .orElseThrow(() -> new RuntimeException("해당 게시글이 존재하지 않습니다."));
+
+        User existUser = userRepository.findById(accountingDto.getUserCode())
+                .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        Accounting.updateEntity(existAccounting, accountingDto, existUser);
+
+        return AccountingDto.toDto(existAccounting);
+    }
+
+    @Transactional
     public void delete(Long id) {
         accountingRepository.deleteById(id);
     }
