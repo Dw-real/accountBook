@@ -1,0 +1,16 @@
+.chartDiv {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+canvas {
+    width: 500px !important;
+    height: 500px !important;
+}
+
+p {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}

@@ -26,6 +26,7 @@ ul {
     height: 50px;  /* 로고의 세로 크기 조정 */
     display: flex;
     align-items: center;  /* 이미지가 중앙 정렬되도록 설정 */
+    cursor: pointer;
 }
 
 .logo img {

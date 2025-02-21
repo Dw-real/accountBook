@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/accounting")
@@ -58,18 +61,21 @@ public class AccountingController {
 
     @GetMapping("/getMore")
     @ResponseBody
-    public Page<AccountingDto> getAccountingData(HttpSession session,
-                                                 @RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "20") int size) {
+    public ResponseEntity<Page<AccountingDto>> getAccountingData(HttpSession session,
+                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "20") int size) {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
-            return Page.empty();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Page.empty());
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
-        return accountingService.findAllByUserCode(loggedInUser.getUserCode(), pageable);
+        Page<AccountingDto> accountingData = accountingService.findAllByUserCode(loggedInUser.getUserCode(), pageable);
+
+        return ResponseEntity.ok(accountingData);
     }
+
 
     /*
         월별 내역 보기
@@ -82,19 +88,45 @@ public class AccountingController {
 
     @GetMapping("/getMonthly")
     @ResponseBody
-    public Page<AccountingDto> getAccountingByMonthly(HttpSession session,
+    public ResponseEntity<?> getAccountingByMonthly(HttpSession session,
                                                       @RequestParam int year,
                                                       @RequestParam int month,
                                                       @RequestParam(defaultValue = "0") int page,
                                                       @RequestParam(defaultValue = "20") int size) {
+
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
-            return Page.empty();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Page.empty());
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
-        return accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month, pageable);
+        Page<AccountingDto> accountingData = accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month, pageable);
+
+        return ResponseEntity.ok(accountingData);
+    }
+
+    /*
+        월별 분석 보기
+     */
+    @GetMapping("/analysisMonthly")
+    public String analysisMonthly(HttpSession session, HttpServletResponse response, Model model) throws IOException {
+        setUserSessionAttributes(session, response, model);
+        return "analysis";
+    }
+
+    @GetMapping("/getMonthlyData")
+    @ResponseBody
+    public ResponseEntity<?> getMonthlyData(HttpSession session, @RequestParam int year, @RequestParam int month) {
+        UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.emptyList());
+        }
+
+        List<AccountingDto> monthlyData = accountingService.findByUserCodeAndMonth(loggedInUser.getUserCode(), year, month);
+        return ResponseEntity.ok(monthlyData);
     }
 
     /*

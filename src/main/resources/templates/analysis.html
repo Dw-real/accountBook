@@ -2,29 +2,32 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>월별 내역 보기</title>
+  <title>월별 분석</title>
   <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="/css/view.css">
   <link rel="stylesheet" href="/css/monthSelect.css">
-  <link rel="stylesheet" href="/css/viewMonthly.css">
+  <link rel="stylesheet" href="/css/analysis.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
 <body>
   <div th:replace="~{header :: header}"></div>
   <div th:replace="~{monthSelect :: monthSelect}"></div>
-  <div class="calendar-container">
-    <div class="calendar-days">
-      <div class="day">일</div>
-      <div class="day">월</div>
-      <div class="day">화</div>
-      <div class="day">수</div>
-      <div class="day">목</div>
-      <div class="day">금</div>
-      <div class="day">토</div>
+  <div class="chartDiv">
+    <div class="incomeChart">
+      <canvas id="income-pie-chart"></canvas>
+      <br>
+      <p style="color: green">수입</p>
     </div>
-    <div class="calendar-dates" id="calendarDates"></div>
-    <div th:replace="~{accountTable :: accountTable}"></div>
+
+    <div class="expenseChart">
+      <canvas id="expense-pie-chart"></canvas>
+      <br>
+      <p style="color: red">지출</p>
+    </div>
+
   </div>
+
   <div class="footer"></div>
   <div th:replace="~{user-dialog :: user-dialog}"></div>
   <div th:replace="~{user-dialog :: dialog-overlay}"></div>
@@ -39,6 +42,6 @@
   </script>
   <script src="/javascript/home.js"></script>
   <script src="/javascript/monthSelect.js"></script>
-  <script src="/javascript/viewMonthly.js"></script>
+  <script src="/javascript/analysis.js"></script>
 </body>
 </html>

@@ -1,11 +1,4 @@
 const calendarDates = document.getElementById("calendarDates");
-const currentMonthElement = document.getElementById("currentMonth");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-
-const today = new Date(); // 현재 날짜
-let currentMonth = today.getMonth(); // 0~11
-let currentYear = today.getFullYear();
 
 let page = 0;
 let isLoading = false;
@@ -90,45 +83,24 @@ function resetAndLoadData() {
 }
 
 $(document).ready(function() {
-  loadMoreData();
-  $(".content").scroll(function() {
+    loadMoreData();
+    $(".content").scroll(function() {
       if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
           loadMoreData();
       }
-  });
+    });
 });
 
 function loadMoreData() {
-  if (isLoading) return;
-  isLoading = true;
-  $(".loading").show();
+    if (isLoading) return;
+    isLoading = true;
+    $(".loading").show();
 
-  $.ajax({
+    $.ajax({
       url: `/accounting/getMonthly?year=${currentYear}&month=${currentMonth + 1}&page=${page}&size=20`,
       method: "GET",
       success: function(data) {
           if (data.content.length > 0) {
-              const typeMap = {
-                  "INCOME" : "수입",
-                  "EXPENSE" : "지출"
-              };
-
-              const categoryMap = {
-                  "SALARY" : "월급",
-                  "ALLOWANCE" : "용돈",
-                  "INTEREST" : "이자",
-                  "SHOPPING" : "쇼핑",
-                  "FOOD" : "식비",
-                  "PHONE" : "통신비",
-                  "TRANSPORT" : "교통비",
-                  "CAFE" : "카페, 간식",
-                  "TRAVEL" : "여행",
-                  "HEALTH" : "건강",
-                  "EDUCATION" : "교육",
-                  "INSURANCE" : "보험",
-                  "OTHER" : "기타"
-              };
-
               data.content.forEach(accounting => {
                   const dateObj = new Date(accounting.date);
                   const year = dateObj.getFullYear();
@@ -171,5 +143,5 @@ function loadMoreData() {
               $(".loading").hide();
           }
       }
-  });
+    });
 }

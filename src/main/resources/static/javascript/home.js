@@ -17,9 +17,16 @@ document.getElementById("viewAll").addEventListener('click', function(){
     location.href = "/accounting/viewAll";
 });
 
+// 월별 내역 보기 메뉴
 document.getElementById("viewMonthly").addEventListener('click', function(){
-    location.href = "/accounting/viewMonthly"
+    location.href = "/accounting/viewMonthly";
 });
+
+// 월별 분석 보기 메뉴
+document.getElementById("analysisMonthly").addEventListener('click', function(){
+    location.href = "/accounting/analysisMonthly";
+})
+
 // 회원 가입 버튼
 document.getElementById("create").addEventListener('click', function() {
     location.href = "/user/create"
