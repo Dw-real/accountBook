@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", function () {
+    toggleDisplay(loggedIn, userName);
+});
+
 document.getElementById("logo").addEventListener('click', function() {
     location.href = "/";
 });
