@@ -20,3 +20,14 @@
 #accountingTable tbody tr:nth-child(odd) {
     background-color: #d9e5ff;
 }
+
+#noDataMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: gray;
+    font-size: 18px;
+    display: none;
+}

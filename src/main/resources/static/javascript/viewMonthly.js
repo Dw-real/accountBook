@@ -1,4 +1,5 @@
 const calendarDates = document.getElementById("calendarDates");
+const table = document.getElementById("accountingTable");
 
 let page = 0;
 let isLoading = false;
@@ -83,6 +84,7 @@ function resetAndLoadData() {
 }
 
 $(document).ready(function() {
+    $("thead").hide();
     loadMoreData();
     $(".content").scroll(function() {
       if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
@@ -101,6 +103,7 @@ function loadMoreData() {
       method: "GET",
       success: function(data) {
           if (data.content.length > 0) {
+              $("thead").show();
               data.content.forEach(accounting => {
                   const dateObj = new Date(accounting.date);
                   const year = dateObj.getFullYear();

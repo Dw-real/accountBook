@@ -1,14 +1,16 @@
 $(document).ready(function() {
-  loadMoreData();
-  $(".content").scroll(function() {
+    $("thead").hide();
+    loadMoreData();
+    $(".content").scroll(function() {
       if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
           loadMoreData();
       }
-  });
+    });
 });
 
 let page = 0;
 let isLoading = false;
+const table = document.getElementById("accountingTable");
 
 function loadMoreData() {
   if (isLoading) return;
@@ -20,27 +22,8 @@ function loadMoreData() {
       method: "GET",
       success: function(data) {
           if (data.content.length > 0) {
-              const typeMap = {
-                  "INCOME" : "수입",
-                  "EXPENSE" : "지출"
-              }
-
-              const categoryMap = {
-                  "SALARY" : "월급",
-                  "ALLOWANCE" : "용돈",
-                  "INTEREST" : "이자",
-                  "SHOPPING" : "쇼핑",
-                  "FOOD" : "식비",
-                  "PHONE" : "통신비",
-                  "TRANSPORT" : "교통비",
-                  "CAFE" : "카페, 간식",
-                  "TRAVEL" : "여행",
-                  "HEALTH" : "건강",
-                  "EDUCATION" : "교육",
-                  "INSURANCE" : "보험",
-                  "OTHER" : "기타"
-              }
-
+              $("thead").show();
+              $("#noDataMessage").hide();
               data.content.forEach(accounting => {
                   $("#breakDown").append(`
                       <tr>
@@ -64,6 +47,7 @@ function loadMoreData() {
                   $(".loading").hide();
               }
           } else {
+              $("#noDataMessage").show();
               $(".loading").hide();
           }
       }
