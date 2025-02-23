@@ -1,3 +1,8 @@
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // 기본 동작(새로고침) 방지
+    logIn();
+});
+
 function logIn() {
     const userId = document.getElementById("userId").value;
     const userPwd = document.getElementById("userPwd").value;

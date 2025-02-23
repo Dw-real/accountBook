@@ -10,12 +10,13 @@
 </head>
 <body>
     <div class="inputForm">
-        <h2>로그인</h2>
-        <input type="text" id="userId" placeholder="아이디">
-        <input type="password" id="userPwd" placeholder="비밀번호">
-        <button class="submitBtn" onclick="logIn()">로그인</button>
-
-        <p id="inputNotice"></p>
+        <form id="loginForm">
+            <h2>로그인</h2>
+            <input type="text" id="userId" placeholder="아이디">
+            <input type="password" id="userPwd" placeholder="비밀번호">
+            <button type="submit">로그인</button>
+            <p id="inputNotice"></p>
+        </form>
     </div>
     <script src="/javascript/logIn.js"></script>
 </body>
