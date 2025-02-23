@@ -1,5 +1,9 @@
 Chart.register(ChartDataLabels);
 
+const incomeContainer = document.querySelector(".incomeChart");
+const expenseContainer = document.querySelector(".expenseChart");
+var dpr = window.devicePixelRatio || 1;
+
 // 수입 차트 데이터
 let incomeLabels = [];
 let incomeData = [];
@@ -76,6 +80,14 @@ function loadData() {
         url: `/accounting/getMonthlyData?year=${currentYear}&month=${currentMonth + 1}`,
         method: "GET",
         success: function(data) {
+            // 차트 데이터 초기화
+            incomeLabels.length = 0;
+            incomeData.length = 0;
+            incomeColors.length = 0;
+            expenseLabels.length = 0;
+            expenseData.length = 0;
+            expenseColors.length = 0;
+
             if (data.length > 0) {
                 // 기존 데이터 초기화
                 let incomeCategoryMap = {};  // 수입 카테고리별 금액 저장
@@ -99,14 +111,6 @@ function loadData() {
                     }
                 });
 
-                // 차트 데이터 초기화
-                incomeLabels.length = 0;
-                incomeData.length = 0;
-                incomeColors.length = 0;
-                expenseLabels.length = 0;
-                expenseData.length = 0;
-                expenseColors.length = 0;
-
                 // 수입 데이터 변환
                 Object.keys(incomeCategoryMap).forEach(category => {
                     incomeLabels.push(categoryMap[category]); // 한글 카테고리명
@@ -120,13 +124,11 @@ function loadData() {
                     expenseData.push(expenseCategoryMap[category]); // 합산된 금액
                     expenseColors.push(colorMap[category]);
                 });
-
-                updateCharts();
             }
+            updateCharts();
         }
     });
 }
-
 
 // 차트 업데이트
 function updateCharts() {
@@ -137,9 +139,40 @@ function updateCharts() {
         expenseChart.destroy();
     }
 
-    incomeChart = createPieChart(incomeCt, incomeLabels, incomeData, incomeColors);
-    expenseChart = createPieChart(expenseCt, expenseLabels, expenseData, expenseColors);
+    // 수입 내역이 없는 경우
+    if (incomeData.length == 0) {
+        var incomeContext = incomeCt.getContext("2d");
+        var msg = "수입 내역이 없습니다.";
+        showMessage(incomeCt, incomeContext, msg);
+    } else {
+        incomeChart = createPieChart(incomeCt, incomeLabels, incomeData, incomeColors);
+    }
+
+    // 지출 내역이 없는 경우
+    if (expenseData.length == 0) {
+        var expenseContext = expenseCt.getContext("2d");
+        var msg = "지출 내역이 없습니다."
+        showMessage(expenseCt, expenseContext, msg);
+    } else {
+        expenseChart = createPieChart(expenseCt, expenseLabels, expenseData, expenseColors);
+    }
 }
+
+function showMessage(ct, context, msg) {
+    // 기존 내용 지우기
+    context.clearRect(0, 0, ct.width, ct.height);
+
+    context.setTransform(1, 0, 0, 1, 0, 0); // 스케일 초기화
+    context.scale(dpr, dpr);
+
+    var centerX = (ct.width) / (2 * dpr);
+    var centerY = (ct.height) / (2 * dpr);
+    context.fillStyle = "#bdbdbd";
+    context.textAlign = "center";
+    context.font = "bold 8px Arial";
+    context.fillText(msg, centerX, centerY);
+}
+
 
 prevBtn.addEventListener("click", () => {
     currentMonth--;
