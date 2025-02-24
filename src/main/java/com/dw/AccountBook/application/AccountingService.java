@@ -17,8 +17,8 @@ import java.util.Optional;
 @Service
 public class AccountingService {
 
-    private UserRepository userRepository;
-    private AccountingRepository accountingRepository;
+    private final UserRepository userRepository;
+    private final AccountingRepository accountingRepository;
 
     @Autowired
     public AccountingService(UserRepository userRepository, AccountingRepository accountingRepository) {

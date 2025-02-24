@@ -13,47 +13,48 @@ document.getElementById("home").addEventListener('click', function() {
 
 // 추가하기 메뉴
 document.getElementById("post").addEventListener('click', function(){
-    location.href = "/accounting/post";
+    location.href = "/post";
 });
 
 // 전체 내역 보기 메뉴
 document.getElementById("viewAll").addEventListener('click', function(){
-    location.href = "/accounting/viewAll";
+    location.href = "/viewAll";
 });
 
 // 월별 내역 보기 메뉴
 document.getElementById("viewMonthly").addEventListener('click', function(){
-    location.href = "/accounting/viewMonthly";
+    location.href = "/viewMonthly";
 });
 
 // 월별 분석 보기 메뉴
 document.getElementById("analysisMonthly").addEventListener('click', function(){
-    location.href = "/accounting/analysisMonthly";
+    location.href = "/analysisMonthly";
 })
 
 // 회원 가입 버튼
 document.getElementById("create").addEventListener('click', function() {
-    location.href = "/user/create"
+    location.href = "/create";
 });
 
 // 로그인 버튼
 document.getElementById("logIn").addEventListener('click', function() {
-    location.href = "/logIn"
+    location.href = "/logIn";
 });
 
 // 로그아웃 버튼
 document.getElementById("logout").addEventListener('click', function() {
-    location.href = "/logout"
+    location.href = "/logout";
+    window.location.href = "/";
 });
 
 // 아이디 찾기 버튼
 document.getElementById("findId").addEventListener('click', function() {
-    location.href = "/user/findId";
+    location.href = "/findId";
 });
 
 // 비밀번호 찾기 버튼
 document.getElementById("findPwd").addEventListener('click', function() {
-    location.href = "/user/findPwd";
+    location.href = "/findPwd";
 });
 
 // 다이얼로그 띄우기
@@ -68,7 +69,7 @@ document.getElementById('dialog-overlay').addEventListener('click', function() {
 });
 
 document.getElementById("updatePwd").addEventListener('click', function() {
-    location.href = "/user/updatePwd";
+    location.href = "/updatePwd";
 });
 
 document.getElementById('deleteId').addEventListener('click', function () {
@@ -94,7 +95,7 @@ function toggleDisplay(loggedIn, userName) {
         document.getElementById('findPwd').style.display = 'none';
         document.getElementById('userName').style.display = 'inline';
         document.getElementById('userName').textContent = userName + "님";
-        //document.getElementById('updatePwd').style.display = 'inline';
+        document.getElementById('updatePwd').style.display = 'inline';
         document.getElementById('logout').style.display = 'inline';
     } else {
         document.getElementById('create').style.display = 'inline';

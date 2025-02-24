@@ -1,7 +1,6 @@
 package com.dw.AccountBook.presentation.controller;
 
 import com.dw.AccountBook.application.UserService;
-import com.dw.AccountBook.domain.User;
 import com.dw.AccountBook.presentation.ApiResponse;
 import com.dw.AccountBook.presentation.dto.login.FindPwdDto;
 import com.dw.AccountBook.presentation.dto.login.PwdUpdateDto;
@@ -13,12 +12,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
-@Controller
+@RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -28,11 +24,6 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping("/create")
-    public String createForm() {
-        return "create";
     }
 
     /*
@@ -55,11 +46,6 @@ public class UserController {
                 .body(new ApiResponse<>(isValid, message, null));
     }
 
-    @GetMapping("/findId")
-    public String findIdForm() {
-        return "findId";
-    }
-
     /*
         ID 찾기
      */
@@ -79,11 +65,6 @@ public class UserController {
                     .body(ApiResponse.fail("서버 내부 오류: " + e.getMessage(), null));
         }
 
-    }
-
-    @GetMapping("/findPwd")
-    public String findPwdForm() {
-        return "findPwd";
     }
 
     /*
@@ -111,14 +92,10 @@ public class UserController {
 
         return ResponseEntity.ok(ApiResponse.success("비밀번호가 성공적으로 변경되었습니다.", null));
     }
+
     /*
         비밀번호 변경
      */
-    @GetMapping("/updatePwd")
-    public String updateForm() {
-        return "updatePwd";
-    }
-
     @PatchMapping("/updatePwd")
     public ResponseEntity<?> updatePwd(HttpSession session, @RequestBody PwdUpdateDto pwdUpdateDto) {
         UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
