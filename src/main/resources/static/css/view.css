@@ -2,9 +2,19 @@
     text-align: center; display: none;
 }
 
+.userTag {
+    text-align: center;
+    font-size: 20px;
+}
+
+#nameTag {
+    color: #9dcfff;
+}
+
 #accountingTable {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 15px;
 }
 
 #accountingTable th, #accountingTable td {

@@ -1,6 +1,7 @@
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function () {
     $("thead").hide();
     loadMoreData();
+    document.getElementById("nameTag").innerText = userName;
     $(".content").scroll(function() {
       if ($(".content").scrollTop() + $(".content").height() >= $(".content").height() - 50) {
           loadMoreData();
