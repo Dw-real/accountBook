@@ -1,3 +1,9 @@
+h2 {
+    color: #9dcfff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 /* 기본 폼 스타일 */
 form {
     background-color: #fff;

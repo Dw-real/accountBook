@@ -16,6 +16,7 @@ const expenseCategories = [
     {value: "PHONE", text: "통신비"},
     {value: "TRANSPORT", text: "교통비"},
     {value: "CAFE", text: "카페, 간식"},
+    {value: "LEISURE", text: "여가"},
     {value: "TRAVEL", text: "여행"},
     {value: "HEALTH", text: "건강"},
     {value: "EDUCATION", text: "교육"},

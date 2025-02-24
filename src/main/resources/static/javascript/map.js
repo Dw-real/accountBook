@@ -9,6 +9,7 @@ const categoryMap = {
     "PHONE" : "통신비",
     "TRANSPORT" : "교통비",
     "CAFE" : "카페, 간식",
+    "LEISURE" : "여가",
     "TRAVEL" : "여행",
     "HEALTH" : "건강",
     "EDUCATION" : "교육",
@@ -25,9 +26,10 @@ const colorMap = {
     "PHONE" : "#00d8ff",
     "TRANSPORT" : "#0054ff",
     "CAFE" : "#5f00ff",
-    "TRAVEL" : "#ff00dd",
-    "HEALTH" : "#ff007f",
-    "EDUCATION" : "#bb2929",
-    "INSURANCE" : "#abf200",
+    "LEISURE" : "#ff00dd",
+    "TRAVEL" : "#ff007f",
+    "HEALTH" : "#bb2929",
+    "EDUCATION" : "#abf200",
+    "INSURANCE" : "#724c00",
     "OTHER" : "#747474"
 };

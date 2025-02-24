@@ -35,7 +35,6 @@ public class AccountingController {
     @PostMapping("/post")
     public ResponseEntity<?> register(@RequestBody AccountingDto accountingDto) {
         accountingService.register(accountingDto);
-
         return ResponseEntity.ok(ApiResponse.success("등록 성공", accountingDto));
     }
 

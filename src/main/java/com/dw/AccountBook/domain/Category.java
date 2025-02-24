@@ -9,6 +9,7 @@ public enum Category {
     PHONE, // 통신비
     TRANSPORT, // 교통비
     CAFE, // 카페, 간식
+    LEISURE, // 여가
     TRAVEL, // 여행
     HEALTH, // 건강
     EDUCATION, // 교육
