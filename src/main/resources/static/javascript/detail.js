@@ -6,7 +6,7 @@ function listReq() {
 // 내역 수정
 function updateReq() {
     const id = accountingData.id;
-    location.href = "/accounting/update/" + id;
+    location.href = "/update/" + id;
 }
 
 // 내역 삭제

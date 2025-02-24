@@ -11,8 +11,6 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var userCode = [[${userCode}]];
-        var loggedIn = [[${loggedIn}]];
-        var userName = [[${userName}]];
         /*]]>*/
     </script>
 </head>
@@ -56,8 +54,8 @@
     <div th:replace="~{user-dialog :: user-dialog}"></div>
     <div th:replace="~{user-dialog :: dialog-overlay}"></div>
     <div th:replace="~{user-dialog :: withDrawModal}"></div>
+    <div th:replace="~{footer :: footer}"></div>
 
-    <script src="/javascript/home.js"></script>
     <script src="/javascript/categories.js"></script>
     <script src="/javascript/posting.js"></script>
 </body>

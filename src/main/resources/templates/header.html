@@ -1,4 +1,11 @@
 <nav class="header" th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var loggedIn = [[${loggedIn}]];
+    var userName = [[${userName}]];
+    /*]]>*/
+  </script>
+
   <div class="logo">
     <img id="logo" src="/image/accountBook.png" width="100%" height="100%">
   </div>

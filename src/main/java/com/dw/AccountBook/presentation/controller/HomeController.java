@@ -71,9 +71,10 @@ public class HomeController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model) {
+    public String updateForm(@PathVariable Long id, HttpSession session, HttpServletResponse response,
+                             Model model) throws IOException {
         AccountingDto accountingDto = accountingService.findById(id);
-
+        setUserSessionAttributes(session, response, model);
         model.addAttribute("accounting", accountingDto);
 
         return "update";

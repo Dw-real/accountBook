@@ -8,21 +8,13 @@
     <title>가계부</title>
     <link rel="stylesheet" href="/css/home.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var loggedIn = [[${loggedIn}]];
-        var userName = [[${userName}]];
-        /*]]>*/
-    </script>
 </head>
 <body>
     <div th:replace="~{header :: header}"></div>
     <div class="content"></div>
-    <div class="footer"></div>
     <div th:replace="~{user-dialog :: user-dialog}"></div>
     <div th:replace="~{user-dialog :: dialog-overlay}"></div>
     <div th:replace="~{user-dialog :: withDrawModal}"></div>
-
-    <script src="/javascript/home.js"></script>
+    <div th:replace="~{footer :: footer}"></div>
 </body>
 </html>

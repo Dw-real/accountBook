@@ -6,12 +6,6 @@
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/view.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script th:inline="javascript">
-    /*<![CDATA[*/
-    var loggedIn = [[${loggedIn}]];
-    var userName = [[${userName}]];
-    /*]]>*/
-  </script>
 </head>
 <body>
   <div th:replace="~{header :: header}"></div>
@@ -20,12 +14,12 @@
   <p id="noDataMessage" style="text-align: center; color: gray; font-size: 18px; margin-top: 20px; display: none;">
     아직 입력한 내역이 없습니다. 내역을 추가해보세요.
   </p>
-  <div class="footer"></div>
+
   <div th:replace="~{user-dialog :: user-dialog}"></div>
   <div th:replace="~{user-dialog :: dialog-overlay}"></div>
   <div th:replace="~{user-dialog :: withDrawModal}"></div>
+  <div th:replace="~{footer :: footer}"></div>
 
-  <script src="/javascript/home.js"></script>
   <script src="/javascript/map.js"></script>
   <script src="/javascript/view.js"></script>
 </body>

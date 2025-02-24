@@ -124,7 +124,7 @@ function loadMoreData() {
                   $("#breakDown").append(`
                       <tr>
                           <td>
-                              <a href="/accounting/lookUp/${accounting.id}" style="color: inherit; text-decoration: none;">
+                              <a href="/lookUp/${accounting.id}" style="color: inherit; text-decoration: none;">
                                   ${accounting.date}
                               </a>
                           </td>

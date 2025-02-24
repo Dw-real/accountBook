@@ -77,11 +77,19 @@ ul {
 /*
     footer
 */
-.footer {
+footer {
     height: 10vh;
     min-height: 10vh;
     max-height: 15vh;
 }
+
+.footer-container {
+    background: #d8d8d8;
+    text-align: left;
+    padding: 20px;
+    font-size: 14px;
+}
+
 /*
     다이얼로그
 */
@@ -154,5 +162,5 @@ ul {
     padding: 8px 20px;
     border: none;
     color: white;
-    background-color: #007bff;
+    background-color: #9dcfff;
 }

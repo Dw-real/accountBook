@@ -108,6 +108,8 @@ function toggleDisplay(loggedIn, userName) {
     }
 }
 
+document.getElementById("year").textContent = new Date().getFullYear();
+
 // 회원 탈퇴 처리 함수
 function withdrawUser(email, pwd) {
     if (email && pwd) {
