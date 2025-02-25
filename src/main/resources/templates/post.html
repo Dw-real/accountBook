@@ -18,38 +18,7 @@
     <div th:replace="~{header :: header}"></div>
     <h2>가계부 작성하기</h2>
     <form id="postForm">
-        <div class="form-row">
-            <div class="typeGroup">
-                <input type="radio" id="income" name="type" value="INCOME">
-                <label for="income" class="btn income">수입</label>
-                <input type="radio" id="expense" name="type" value="EXPENSE" checked>
-                <label for="expense" class="btn expense">지출</label>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <label for="category">카테고리: </label>
-            <select id="category" name="category">
-            </select>
-        </div>
-        <div class="form-row">
-            <label for="amount">금액: </label>
-            <input type="number" id="amount" name="amount" min="0" placeholder="금액">
-        </div>
-
-        <div class="form-row">
-            <label for="description">메모: </label>
-            <input type="text" id="description" placeholder="메모">
-        </div>
-
-        <div class="form-row">
-            <label for="calendar">날짜 선택: </label>
-            <input id="calendar" type="date">
-        </div>
-
-        <div class="submitBtn">
-            <input type="submit" value="완료">
-        </div>
+        <div th:replace="~{accountingForm :: accountingForm}"></div>
     </form>
 
     <div th:replace="~{user-dialog :: user-dialog}"></div>
@@ -58,6 +27,7 @@
     <div th:replace="~{footer :: footer}"></div>
 
     <script src="/javascript/categories.js"></script>
+    <script src="/javascript/calculator.js"></script>
     <script src="/javascript/posting.js"></script>
 </body>
 </html>

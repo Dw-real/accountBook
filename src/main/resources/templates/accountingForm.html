@@ -1,0 +1,79 @@
+<div class="accountForm" th:fragment="accountingForm">
+  <div class="form-row">
+    <div class="typeGroup">
+      <input type="radio" id="income" name="type" value="INCOME">
+      <label for="income" class="btn income">수입</label>
+      <input type="radio" id="expense" name="type" value="EXPENSE" checked>
+      <label for="expense" class="btn expense">지출</label>
+    </div>
+  </div>
+
+  <label for="category">카테고리: </label>
+  <div class="form-row">
+    <select id="category" name="category">
+    </select>
+  </div>
+
+  <label for="amount">금액: </label>
+  <div class="form-row">
+    <input type="number" id="amount" name="amount" min="0" placeholder="금액">
+    <input type="button" class="calculatorBtn" onclick="showCalculator()">
+  </div>
+
+  <!--계산기-->
+  <div id="calculatorModal" style="display: none;">
+    <table id="calculator">
+      <tr>
+        <td colspan="4">
+          <input type="text" id="display">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <input type="text" id="result">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" onclick="reset()">AC</td>
+        <td onclick="addChar('/')">/</td>
+      </tr>
+      <tr>
+        <td onclick="addChar(7)">7</td>
+        <td onclick="addChar(8)">8</td>
+        <td onclick="addChar(9)">9</td>
+        <td onclick="addChar('*')">*</td>
+      </tr>
+      <tr>
+        <td onclick="addChar(4)">4</td>
+        <td onclick="addChar(5)">5</td>
+        <td onclick="addChar(6)">6</td>
+        <td onclick="addChar('-')">-</td>
+      </tr>
+      <tr>
+        <td onclick="addChar(1)">1</td>
+        <td onclick="addChar(2)">2</td>
+        <td onclick="addChar(3)">3</td>
+        <td onclick="addChar('+')">+</td>
+      </tr>
+      <tr>
+        <td colspan="3" onclick="addChar(0)">0</td>
+        <td onclick="calculate()">=</td>
+      </tr>
+    </table>
+    <button id="inputResult" type="button">확인</button>
+  </div>
+
+  <label for="description">메모: </label>
+  <div class="form-row">
+    <input type="text" id="description" placeholder="메모">
+  </div>
+
+  <label for="calendar">날짜 선택: </label>
+  <div class="form-row">
+    <input id="calendar" type="date">
+  </div>
+
+  <div class="submitBtn">
+    <input type="submit" value="완료">
+  </div>
+</div>
