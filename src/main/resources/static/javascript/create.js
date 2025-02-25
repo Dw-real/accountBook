@@ -16,16 +16,18 @@ function checkId() {
         data: {id: id},  // 데이터를 URL 파라미터로 보냄
         success: function(response) {
             if (response.success) {
-                checkResult.textContent = "사용 가능한 아이디입니다.";
+                checkResult.textContent = response.message;
                 checkResult.style.color = "green";
-            } else {
-                checkResult.textContent = "이미 사용 중인 아이디입니다.";
-                checkResult.style.color = "red";
             }
         },
         error: function(xhr, status, error) {
-            checkResult.textContent = "서버 오류가 발생했습니다. 다시 시도해주세요.";
-            checkResult.style.color = "red";
+            if (xhr.status == 409) {
+                checkResult.textContent = xhr.responseJSON.message;
+                checkResult.style.color = "red";
+            } else {
+                checkResult.textContent = "서버 오류가 발생했습니다. 다시 시도해주세요.";
+                checkResult.style.color = "red";
+            }
         }
     });
 }

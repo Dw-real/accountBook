@@ -1,9 +1,3 @@
-label {
-    font-weight: bold;
-    margin-bottom: 8px; /* 간격 조정 */
-    display: block; /* 라벨을 블록 요소로 설정 */
-}
-
 input {
     width: 100%; /* 모든 input 요소의 너비를 통일 */
     padding: 8px;
