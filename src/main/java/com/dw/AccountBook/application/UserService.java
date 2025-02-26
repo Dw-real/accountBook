@@ -34,11 +34,7 @@ public class UserService {
     }
 
     public boolean checkId(String id) {
-        // 해당 id를 사용하는 사용자의 userCode
-        Long userCode = userRepository.checkId(id)
-                .orElse(null);
-
-        return userCode == null;
+        return userRepository.existsById(id);
     }
 
     public boolean logIn(String userId, String userPwd) {
