@@ -40,10 +40,10 @@ public class UserController {
      */
     @GetMapping("/id-check")
     public ResponseEntity<?> idCheck(@RequestParam("id") String id) {
-        boolean isValid = userService.checkId(id);
-        String message = isValid ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다.";
-        return ResponseEntity.status(isValid ? HttpStatus.OK : HttpStatus.CONFLICT)
-                .body(new ApiResponse<>(isValid, message, null));
+        boolean isExist = userService.checkId(id);
+        String message = !isExist ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다.";
+        return ResponseEntity.status(!isExist ? HttpStatus.OK : HttpStatus.CONFLICT)
+                .body(new ApiResponse<>(!isExist, message, null));
     }
 
     /*
