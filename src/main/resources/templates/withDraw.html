@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <title>회원 탈퇴</title>
+    <link rel="stylesheet" href="/css/inputForm.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="inputForm">
+        <h2>회원 탈퇴</h2>
+        <input type="email" id="emailInput" placeholder="이메일">
+        <input type="password" id="pwdInput" placeholder="비밀번호">
+        <button id="confirmDelete">확인</button>
+        <p id="notice"></p>
+    </div>
+    <script src="/javascript/withDraw.js"></script>
+</body>
+</html>

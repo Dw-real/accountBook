@@ -112,6 +112,11 @@ public class HomeController {
         return "analysis";
     }
 
+    @GetMapping("/withDraw")
+    public String withDraw() {
+        return "withDraw";
+    }
+
     private void setUserSessionAttributes(HttpSession session, HttpServletResponse response, Model model) throws IOException {
         UserDto loggedInUser = (UserDto) session.getAttribute("loggedInUser");
 

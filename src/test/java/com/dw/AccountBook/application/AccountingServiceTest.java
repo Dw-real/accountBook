@@ -42,18 +42,17 @@ public class AccountingServiceTest {
         // Set up a mock User
         user = new User();
         user.setUserCode(1L);
-        user.setName("John");
-        user.setEmail("john@example.com");
-        user.setId("john123");
-        user.setPwd("password");
+        user.setName("han");
+        user.setEmail("han@naver.com");
+        user.setId("han1234");
+        user.setPwd("pwd1234");
 
-        // Set up a mock AccountingDto
         accountingDto = new AccountingDto();
         accountingDto.setUserCode(1L);
         accountingDto.setType(Type.EXPENSE); // 예시 타입
         accountingDto.setCategory(Category.FOOD); // 예시 카테고리
-        accountingDto.setAmount(100L);
-        accountingDto.setDescription("Lunch");
+        accountingDto.setAmount(10000L);
+        accountingDto.setDescription("점심");
         accountingDto.setDate(LocalDate.now());
     }
 

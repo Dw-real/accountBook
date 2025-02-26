@@ -73,18 +73,7 @@ document.getElementById("updatePwd").addEventListener('click', function() {
 });
 
 document.getElementById('deleteId').addEventListener('click', function () {
-    document.getElementById('withDrawModal').style.display = 'block';
-});
-
-document.querySelector('.close').addEventListener('click', function () {
-    document.getElementById('withDrawModal').style.display = 'none';
-});
-
-window.addEventListener('click', function (event) {
-    const modal = document.getElementById('withDrawModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
+    location.href = "/withDraw";
 });
 
 function toggleDisplay(loggedIn, userName) {
@@ -109,47 +98,3 @@ function toggleDisplay(loggedIn, userName) {
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
-
-// 회원 탈퇴 처리 함수
-function withdrawUser(email, pwd) {
-    if (email && pwd) {
-        var header = $("meta[name='_csrf_header']").attr('content');
-        var token = $("meta[name='_csrf']").attr('content');
-
-        $.ajax({
-            type: 'DELETE',
-            url: '/user/delete',
-            contentType: 'application/json',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            data: JSON.stringify({
-                email: email,
-                pwd: pwd
-            }),
-            success: function(response) {
-                alert('탈퇴되었습니다.');
-                window.location.href = '/';
-                document.getElementById('passwordModal').style.display = 'none';
-            },
-            error: function(xhr, status, error) {
-                try {
-                    // 서버에서 반환된 오류 메시지를 추출하여 alert로 표시
-                    const errorResponse = JSON.parse(xhr.responseText);
-                    alert(errorResponse.errors.join("\n"));
-                } catch (e) {
-                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-                }
-            }
-        });
-    } else {
-        alert('비밀번호를 입력하세요.');
-    }
-}
-
-// 버튼 클릭 이벤트 핸들러
-document.getElementById('confirmDelete').addEventListener('click', function() {
-    const email = document.getElementById('emailInput').value;
-    const pwd = document.getElementById('pwdInput').value;
-    withdrawUser(email, pwd); // 탈퇴 처리 함수 호출
-});
