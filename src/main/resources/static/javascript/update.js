@@ -1,3 +1,5 @@
+const validList = document.querySelector(".valid-list");
+
 document.addEventListener("DOMContentLoaded", function () {
     // 기존 데이터에 따라 초기 선택값 설정
     if (accountingData.type === "INCOME") {
@@ -59,8 +61,19 @@ $('#updateForm').submit(function(e) {
           alert('수정되었습니다.');
           window.location.href = "/accounting/lookUp/" + id;
       },
-      error: function(error) {
-          alert("수정에 실패했습니다.");
+      error: function(xhr, status, error) {
+          if (xhr.status == 400) {
+              validList.innerHTML = '';
+              const errorResponse = JSON.parse(xhr.responseText);
+              errorResponse.errors.forEach(error => {
+                  const validMessage = document.createElement('p');
+                  validMessage.textContent = error;
+                  validMessage.style.color = "red";
+                  validList.appendChild(validMessage);
+              });
+          } else {
+              alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+          }
       }
     });
 });

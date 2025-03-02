@@ -5,6 +5,7 @@ import com.dw.AccountBook.presentation.ApiResponse;
 import com.dw.AccountBook.presentation.dto.accounting.AccountingDto;
 import com.dw.AccountBook.presentation.dto.user.UserDto;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +34,7 @@ public class AccountingController {
         작성
      */
     @PostMapping("/post")
-    public ResponseEntity<?> register(@RequestBody AccountingDto accountingDto) {
+    public ResponseEntity<?> register(@Valid @RequestBody AccountingDto accountingDto) {
         accountingService.register(accountingDto);
         return ResponseEntity.ok(ApiResponse.success("등록 성공", accountingDto));
     }
@@ -101,7 +102,7 @@ public class AccountingController {
         수정
      */
     @PatchMapping("/update")
-    public ResponseEntity<?> update(@RequestBody AccountingDto accountingDto, Model model) {
+    public ResponseEntity<?> update(@Valid @RequestBody AccountingDto accountingDto, Model model) {
         AccountingDto updatedAccounting = accountingService.update(accountingDto);
 
         model.addAttribute("accounting", updatedAccounting);

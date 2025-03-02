@@ -1,3 +1,5 @@
+const validList = document.querySelector(".valid-list");
+
 // 페이지 로드 시 기본 값 (지출 카테고리)
 updateCategories(expenseCategories);
 
@@ -11,15 +13,6 @@ $(document).ready(function() {
         const description = $('#description').val();
         const calendar = document.querySelector('#calendar');
         const date = calendar.value;
-
-        if (!amount) {
-            alert("금액을 입력해주세요.");
-            return;
-        }
-        if (!date) {
-            alert("날짜를 선택해주세요.");
-            return;
-        }
 
         var header = $("meta[name='_csrf_header']").attr('content');
         var token = $("meta[name='_csrf']").attr('content');
@@ -43,7 +36,18 @@ $(document).ready(function() {
                 window.location.href = "/";
             },
             error: function(xhr, status, error) {
-                // 오류가 발생하면 처리
+                if (xhr.status == 400) {
+                    validList.innerHTML = '';
+                    const errorResponse = JSON.parse(xhr.responseText);
+                    errorResponse.errors.forEach(error => {
+                        const validMessage = document.createElement('p');
+                        validMessage.textContent = error;
+                        validMessage.style.color = "red";
+                        validList.appendChild(validMessage);
+                    });
+                } else {
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
             }
         });
     });

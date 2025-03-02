@@ -2,6 +2,7 @@ package com.dw.AccountBook.domain;
 
 import com.dw.AccountBook.presentation.dto.accounting.AccountingDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -26,12 +27,14 @@ public class Accounting {
     private Category category;
 
     @Column(nullable = false)
+    @NotNull(message = "금액을 입력해주세요")
     private Long amount;
 
     @Column
     private String description;
 
     @Column(nullable = false)
+    @NotNull(message = "날짜를 선택해주세요")
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)

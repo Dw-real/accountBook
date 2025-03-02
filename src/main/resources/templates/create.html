@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -12,17 +12,18 @@
 <body>
     <form id="createAccountForm" class="inputForm">
       <h2>회원 가입</h2>
-      <input type="text" id="name" placeholder="이름" required>
+      <input type="text" id="name" placeholder="이름(2~20자 이내)" required>
       <input type="email" id="email" placeholder="이메일" required>
 
       <div class="checkId">
-        <input type="text" id="id" placeholder="아이디" required>
+        <input type="text" id="id" placeholder="아이디(4~15자 이내)" required>
         <button id="checkIdBtn" type="button" onclick="checkId()">중복 확인</button>
       </div>
-      <p id="check-result"></p>
 
+      <div class="valid-list">
+
+      </div>
       <input type="password" id="pwd" placeholder="비밀번호" required>
-
       <input type="password" id="pwdCheck" placeholder="비밀번호 확인" required>
 
       <button type="submit">계정 생성</button>

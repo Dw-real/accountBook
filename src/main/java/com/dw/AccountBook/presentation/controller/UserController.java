@@ -9,6 +9,7 @@ import com.dw.AccountBook.presentation.dto.user.UserDto;
 import com.dw.AccountBook.presentation.dto.user.UserIdRequestDto;
 import com.dw.AccountBook.presentation.dto.user.UserPwdRequestDto;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class UserController {
         회원가입
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createAccount(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> createAccount(@Valid @RequestBody UserDto userDto) {
         UserDto createdUser = userService.create(userDto);
         return ResponseEntity.ok(ApiResponse.success("회원가입 성공", createdUser));
     }

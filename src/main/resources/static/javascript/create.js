@@ -1,3 +1,5 @@
+const validList = document.querySelector(".valid-list");
+
 function checkId() {
     const id = document.getElementById("id").value;
     const checkResult = document.getElementById("check-result");
@@ -16,17 +18,22 @@ function checkId() {
         data: {id: id},  // 데이터를 URL 파라미터로 보냄
         success: function(response) {
             if (response.success) {
+                validList.innerHTML = '';
+                const checkResult = document.createElement('p');
                 checkResult.textContent = response.message;
                 checkResult.style.color = "green";
+                validList.appendChild(checkResult);
             }
         },
         error: function(xhr, status, error) {
             if (xhr.status == 409) {
+                validList.innerHTML = '';
+                const checkResult = document.createElement('p');
                 checkResult.textContent = xhr.responseJSON.message;
                 checkResult.style.color = "red";
+                validList.appendChild(checkResult);
             } else {
-                checkResult.textContent = "서버 오류가 발생했습니다. 다시 시도해주세요.";
-                checkResult.style.color = "red";
+                alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
             }
         }
     });
@@ -68,11 +75,16 @@ $(document).ready(function() {
                 location.href = "/";
             },
             error: function(xhr, status, error) {
-                try {
-                    // 서버에서 반환된 오류 메시지를 추출하여 alert로 표시
+                if (xhr.status == 400) {
+                    validList.innerHTML = '';
                     const errorResponse = JSON.parse(xhr.responseText);
-                    alert(errorResponse.errors.join("\n"));
-                } catch (e) {
+                    errorResponse.errors.forEach(error => {
+                        const validMessage = document.createElement('p');
+                        validMessage.textContent = error;
+                        validMessage.style.color = "red";
+                        validList.appendChild(validMessage);
+                    });
+                } else {
                     alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
                 }
             }
