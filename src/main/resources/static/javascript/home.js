@@ -16,14 +16,13 @@ document.getElementById("post").addEventListener('click', function(){
     location.href = "/post";
 });
 
-// 전체 내역 보기 메뉴
-document.getElementById("viewAll").addEventListener('click', function(){
+document.getElementById("view").addEventListener('click', function(){
     location.href = "/viewAll";
-});
-
-// 월별 내역 보기 메뉴
-document.getElementById("viewMonthly").addEventListener('click', function(){
-    location.href = "/viewMonthly";
+    if (event.target.id === "viewAll") {
+        location.href = "/viewAll";
+    } else if (event.target.id === "viewMonthly") {
+        location.href = "/viewMonthly";
+    }
 });
 
 // 월별 분석 보기 메뉴
