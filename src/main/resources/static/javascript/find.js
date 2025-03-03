@@ -96,9 +96,11 @@ function updatePwd() {
 
     if (!newPwd || !updatePwd) {
         notice.textContent = "모든 칸을 입력해주세요."
+        notice.style.color = "red";
         return;
     } else if (newPwd !== checkPwd) {
         notice.textContent = "새 비밀번호를 정확히 입력해주세요.";
+        notice.style.color = "red";
         return;
     }
 
@@ -121,11 +123,15 @@ function updatePwd() {
             location.href ="/";
         },
         error: function(xhr, status, error) {
-            try {
-                // 서버에서 반환된 오류 메시지를 추출하여 alert로 표시
+            if (xhr.status == 400) {
+                notice.innerHTML = '';
                 const errorResponse = JSON.parse(xhr.responseText);
-                alert(errorResponse.errors.join("\n"));
-            } catch (e) {
+                errorResponse.errors.forEach(error => {
+                    const validMessage = document.createElement('p');
+                    validMessage.textContent = error;
+                    document.getElementById("notice").appendChild(validMessage);
+                });
+            } else {
                 alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
             }
         }

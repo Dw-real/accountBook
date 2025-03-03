@@ -10,14 +10,18 @@ import com.dw.AccountBook.presentation.dto.user.UserIdRequestDto;
 import com.dw.AccountBook.presentation.dto.user.UserPwdRequestDto;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -40,9 +44,13 @@ public class UserController {
         ID 중복 확인
      */
     @GetMapping("/id-check")
-    public ResponseEntity<?> idCheck(@RequestParam("id") String id) {
+    public ResponseEntity<?> idCheck(
+            @RequestParam @Size(min = 4, max = 15, message = "아이디는 4~15자 이내로 입력해야 합니다.")
+            @Pattern(regexp = "^[a-z][a-z0-9]{3,14}$", message = "아이디 형식을 확인해 주세요.") String id) {
+
         boolean isExist = userService.checkId(id);
         String message = !isExist ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다.";
+
         return ResponseEntity.status(!isExist ? HttpStatus.OK : HttpStatus.CONFLICT)
                 .body(new ApiResponse<>(!isExist, message, null));
     }
@@ -84,7 +92,7 @@ public class UserController {
     }
 
     @PatchMapping("/findPwd")
-    public ResponseEntity<?> updatePwd(@RequestBody FindPwdDto findPwdDto) {
+    public ResponseEntity<?> updatePwd(@Valid @RequestBody FindPwdDto findPwdDto) {
         boolean isUpdated = userService.updatePwd(findPwdDto.getId(), findPwdDto.getNewPwd());
 
         if (!isUpdated) {
@@ -98,7 +106,7 @@ public class UserController {
         비밀번호 변경
      */
     @PatchMapping("/updatePwd")
-    public ResponseEntity<?> updatePwd(HttpSession session, @RequestBody PwdUpdateDto pwdUpdateDto) {
+    public ResponseEntity<?> updatePwd(HttpSession session, @Valid @RequestBody PwdUpdateDto pwdUpdateDto) {
         UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
 
         boolean isUpdated = userService.updatePwd(userDto.getId(), pwdUpdateDto);

@@ -1,8 +1,10 @@
 const validList = document.querySelector(".valid-list");
+let check = false;
 
 function checkId() {
     const id = document.getElementById("id").value;
     const checkResult = document.getElementById("check-result");
+    check = true;
 
     // 아이디를 입력하지 않은 경우
     if (!id) {
@@ -14,24 +16,18 @@ function checkId() {
     // AJAX 요청
     $.ajax({
         type: "GET",
-        url: "/user/id-check",  // URL 파라미터로 id 전달
-        data: {id: id},  // 데이터를 URL 파라미터로 보냄
+        url: "/user/id-check",
+        data: {id: id},
         success: function(response) {
             if (response.success) {
-                validList.innerHTML = '';
-                const checkResult = document.createElement('p');
-                checkResult.textContent = response.message;
-                checkResult.style.color = "green";
-                validList.appendChild(checkResult);
+                otherMessage(response.message, "green");
             }
         },
         error: function(xhr, status, error) {
             if (xhr.status == 409) {
-                validList.innerHTML = '';
-                const checkResult = document.createElement('p');
-                checkResult.textContent = xhr.responseJSON.message;
-                checkResult.style.color = "red";
-                validList.appendChild(checkResult);
+                otherMessage(xhr.responseJSON.message, "red");
+            } else if (xhr.status == 400) {
+                badRequestMessage(xhr);
             } else {
                 alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
             }
@@ -51,6 +47,11 @@ $(document).ready(function() {
 
         if (pwd != pwdCheck) {
             alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        if (!check) {
+            alert("아이디 중복확인을 해주세요.");
             return;
         }
 
@@ -76,14 +77,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 if (xhr.status == 400) {
-                    validList.innerHTML = '';
-                    const errorResponse = JSON.parse(xhr.responseText);
-                    errorResponse.errors.forEach(error => {
-                        const validMessage = document.createElement('p');
-                        validMessage.textContent = error;
-                        validMessage.style.color = "red";
-                        validList.appendChild(validMessage);
-                    });
+                    badRequestMessage(xhr);
                 } else {
                     alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
                 }
@@ -91,3 +85,22 @@ $(document).ready(function() {
         });
     });
 });
+
+function badRequestMessage(xhr) {
+    validList.innerHTML = '';
+    const errorResponse = JSON.parse(xhr.responseText);
+    errorResponse.errors.forEach(error => {
+        const validMessage = document.createElement('p');
+        validMessage.textContent = error;
+        validMessage.style.color = "red";
+        validList.appendChild(validMessage);
+    });
+}
+
+function otherMessage(message, color) {
+    validList.innerHTML = '';
+    const checkResult = document.createElement('p');
+    checkResult.textContent = message;
+    checkResult.style.color = color;
+    validList.appendChild(checkResult);
+}
