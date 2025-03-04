@@ -32,8 +32,19 @@ function addChar(char) {
 }
 
 function calculate() {
-    var result = eval(display.value);
+    var result = safeCalculate(display.value);
     resultInput.value = result;
+}
+
+function safeCalculate(expression) {
+    try {
+        if (!/^[0-9+\-*/().% ]+$/.test(expression)) {
+            throw new Error("잘못된 입력입니다.");
+        }
+        return new Function("return " + expression)();
+    } catch(e) {
+        return "Error";
+    }
 }
 
 function reset() {
@@ -43,5 +54,5 @@ function reset() {
 
 document.getElementById("inputResult").addEventListener('click', function() {
     const amountInput = document.getElementById("amount")
-    amountInput.value = resultInput.value;
+    amountInput.value = Math.ceil(resultInput.value);
 });
