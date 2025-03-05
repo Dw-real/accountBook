@@ -10,7 +10,25 @@
 </head>
 <body>
     <div th:replace="~{header :: header}"></div>
-    <div class="content"></div>
+    <div class="content">
+        <div class="introduction-container">
+            <div class="introduction">
+                <h2>간단한 가계부 작성</h2>
+                <img src="/image/writing.png">
+                <p>월별 수입과 지출을 간단하게 기록하고 관리하세요.</p>
+            </div>
+            <div class="introduction">
+                <h2>간편한 작성 내역 보기</h2>
+                <img src="/image/view.png">
+                <p>작성한 내역을 간편하게 보세요.</p>
+            </div>
+            <div class="introduction">
+                <h2>직관적인 예산 분석</h2>
+                <img src="/image/analysis.png">
+                <p>차트를 통해 수입, 지출 내역을 분석 가능합니다.</p>
+            </div>
+        </div>
+    </div>
     <div th:replace="~{user-dialog :: user-dialog}"></div>
     <div th:replace="~{user-dialog :: dialog-overlay}"></div>
     <div th:replace="~{footer :: footer}"></div>
