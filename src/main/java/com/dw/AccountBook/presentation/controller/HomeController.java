@@ -112,6 +112,12 @@ public class HomeController {
         return "analysis";
     }
 
+    @GetMapping("/budget")
+    public String viewBudget(HttpSession session, HttpServletResponse response, Model model) throws IOException {
+        setUserSessionAttributes(session, response, model);
+        return "budget";
+    }
+
     @GetMapping("/withDraw")
     public String withDraw() {
         return "withDraw";

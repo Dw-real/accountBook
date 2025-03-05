@@ -1,0 +1,23 @@
+<div class="content" th:fragment="showBudget">
+  <div class="budget-summary">
+    <h4><span id="nameTag"></span> 님의 이번 달 남은 예산</h4>
+    <h4>₩ <span id="remaining-budget"></span></h4>
+    <p>예산 사용</p>
+    <progress id="budget-progress" min="0" max="100"></progress>
+    <span id="percentage-label"></span>
+    <br>
+
+    <span id="recent-label">최근 내역</span>
+    <table id="recent-accounting-table">
+      <thead>
+      <tr>
+        <th>구분</th>
+        <th>잔액 변동</th>
+        <th>날짜</th>
+      </tr>
+      </thead>
+
+      <tbody id="recent-accounting"></tbody>
+    </table>
+  </div>
+</div>

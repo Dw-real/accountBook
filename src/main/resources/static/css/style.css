@@ -1,0 +1,27 @@
+h4 {
+    text-align: center;
+}
+
+#nameTag {
+    color: #9dcfff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}
+
+thead {
+    background-color: #b2ccff;
+    color: white;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #d9e5ff;
+}

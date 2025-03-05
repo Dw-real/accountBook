@@ -22,6 +22,8 @@ document.getElementById("view").addEventListener('click', function(){
         location.href = "/viewAll";
     } else if (event.target.id === "viewMonthly") {
         location.href = "/viewMonthly";
+    } else if (event.target.id === "showBudget") {
+        location.href = "/budget";
     }
 });
 

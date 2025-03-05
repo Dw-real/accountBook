@@ -46,6 +46,8 @@ ul {
 .menu li {
     padding: 8px 12px;
     position: relative;
+    width: 70px;
+    text-align: center;
 }
 
 /* 드롭다운 메뉴 */
@@ -150,4 +152,4 @@ footer {
 
 .dialog li:hover {
     background-color: #f0f0f0;
-}}
+}

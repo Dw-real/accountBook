@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>예산 보기</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/budget.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div th:replace="~{showBudget :: showBudget}"></div>
+<div th:replace="~{user-dialog :: user-dialog}"></div>
+<div th:replace="~{user-dialog :: dialog-overlay}"></div>
+<div th:replace="~{footer :: footer}"></div>
+
+<script src="/javascript/map.js"></script>
+<script src="/javascript/budget.js"></script>
+</body>
+</html>

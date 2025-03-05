@@ -7,30 +7,6 @@
     font-size: 20px;
 }
 
-#nameTag {
-    color: #9dcfff;
-}
-
-#accountingTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-#accountingTable th, #accountingTable td {
-    padding: 5px;
-    text-align: center;
-}
-
-#accountingTable thead {
-    background-color: #b2ccff;
-    color: white;
-}
-
-#accountingTable tbody tr:nth-child(odd) {
-    background-color: #d9e5ff;
-}
-
 #noDataMessage {
     position: absolute;
     top: 50%;

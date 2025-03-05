@@ -1,0 +1,31 @@
+.budget-summary {
+    width: 30%;
+    border: 1px solid #9dcfff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+#budget-progress {
+    appearance: none;
+}
+
+#budget-progress::-webkit-progress-bar {
+    background: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: inset 3px 3px 10px #ccc;
+}
+
+#budget-progress::-webkit-progress-value {
+    border-radius:10px;
+    background: #3162C7;
+    background: -webkit-linear-gradient(to right, #9dcfff, #3162C7);
+    background: linear-gradient(to right, #9dcfff, #3162C7);
+}
+
+#recent-label {
+    font-weight: bold;
+    display: block;
+    width: 100%;
+}
