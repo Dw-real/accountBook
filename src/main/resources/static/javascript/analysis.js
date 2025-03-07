@@ -22,7 +22,7 @@ function createDoughnutChart(ctx, labels, data, colors, text) {
             responsive: false,
             maintainAspectRatio: false,
             plugins: {
-                tooltip: { enabled: true, padding: 15 },
+                tooltip: { enabled: true, padding: 15, intersect: false },
                 legend: { display: true, position: 'bottom', labels: { fontSize: 15, boxWidth: 20 } },
                 datalabels: {
                     formatter: (value, ctx) => {
