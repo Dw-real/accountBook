@@ -154,6 +154,24 @@ function updateCharts() {
     barChartData.chart = createBarChart();
 }
 
+prevBtn.addEventListener("click", () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    loadData();
+});
+
+nextBtn.addEventListener("click", () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    loadData();
+});
+
 // 초기 데이터 로드
 $(document).ready(function() {
     loadData();

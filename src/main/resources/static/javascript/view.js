@@ -48,7 +48,8 @@ function loadMoreData() {
                   $(".loading").hide();
               }
           } else {
-              $("#noDataMessage").show();
+              if (page === 0 && data.content.length === 0)
+                $("#noDataMessage").show();
               $(".loading").hide();
           }
       }
