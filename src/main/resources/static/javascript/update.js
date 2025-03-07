@@ -59,7 +59,7 @@ $('#updateForm').submit(function(e) {
       }),
       success: function(response) {
           alert('수정되었습니다.');
-          window.location.href = "/accounting/lookUp/" + id;
+          window.location.href = "/lookUp/" + id;
       },
       error: function(xhr, status, error) {
           if (xhr.status == 400) {
