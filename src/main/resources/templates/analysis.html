@@ -14,18 +14,14 @@
   <div th:replace="~{header :: header}"></div>
   <div th:replace="~{monthSelect :: monthSelect}"></div>
   <div class="chartDiv">
-    <div class="incomeChart">
-      <canvas id="income-pie-chart"></canvas>
-      <br>
-      <p class = "tag" style="color: green">수입</p>
+    <div class="doughnut-chart-container">
+      <canvas id="income-doughnut-chart"></canvas>
+      <canvas id="expense-doughnut-chart"></canvas>
     </div>
 
-    <div class="expenseChart">
-      <canvas id="expense-pie-chart"></canvas>
-      <br>
-      <p class="tag" style="color: red">지출</p>
+    <div class="bar-chart-container">
+      <canvas id="bar-chart"></canvas>
     </div>
-
   </div>
 
   <div th:replace="~{user-dialog :: user-dialog}"></div>

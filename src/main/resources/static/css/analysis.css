@@ -2,16 +2,14 @@
     display: flex;
     justify-content: center;
     margin: auto;
-    gap: 20px;
+    gap: 50px;
 }
 
 canvas {
-    width: 500px !important;
-    height: 500px !important;
+    width: 400px !important;
+    height: 400px !important;
 }
 
-.tag {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+.doughnut-chart-container {
+    display: flex;
 }

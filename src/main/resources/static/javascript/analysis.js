@@ -1,130 +1,135 @@
 Chart.register(ChartDataLabels);
 
-const incomeContainer = document.querySelector(".incomeChart");
-const expenseContainer = document.querySelector(".expenseChart");
 var dpr = window.devicePixelRatio || 1;
 
-// 수입 차트 데이터
-let incomeLabels = [];
-let incomeData = [];
-let incomeColors = [];
+// 도넛 차트 데이터 저장 객체
+let doughnutChartData = {
+    INCOME: { labels: [], data: [], colors: [], chart: null, ctx: "income-doughnut-chart", text: "수입" },
+    EXPENSE: { labels: [], data: [], colors: [], chart: null, ctx: "expense-doughnut-chart", text: "지출" }
+};
 
-// 지출 차트 데이터
-let expenseLabels = [];
-let expenseData = [];
-let expenseColors = [];
+// 바 차트 데이터 저장 객체
+let barChartData = {
+    labels: [], data: [], colors: ["#0100FF", "#FF0000"], chart: null, ctx: "bar-chart"
+};
 
-// 차트 생성
-const incomeCt = document.getElementById("income-pie-chart");
-const expenseCt = document.getElementById("expense-pie-chart");
-
-let incomeChart = null;
-let expenseChart = null;
-
-function createPieChart(ctx, labels, data, colors) {
+// 도넛 차트 생성 함수
+function createDoughnutChart(ctx, labels, data, colors, text) {
     return new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                backgroundColor: colors,
-                data: data
-            }]
-        },
+        type: 'doughnut',
+        data: { labels, datasets: [{ backgroundColor: colors, data }]},
         options: {
             responsive: false,
             maintainAspectRatio: false,
             plugins: {
-                tooltip: {
-                    enabled: true,
-                    padding: 15
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    labels: {
-                        fontSize: 15,
-                        boxWidth: 20
-                    }
-                },
+                tooltip: { enabled: true, padding: 15 },
+                legend: { display: true, position: 'bottom', labels: { fontSize: 15, boxWidth: 20 } },
                 datalabels: {
                     formatter: (value, ctx) => {
                         let datasets = ctx.chart.data.datasets[0].data;
-
-                        if (value !== 0) {
-                            let sum = datasets.reduce((acc, data) => acc + data, 0);
-                            let percentage = Math.round((value * 100) / sum) + "%";
-                            return percentage;
-                        } else {
-                            return "";
-                        }
+                        let sum = datasets.reduce((acc, data) => acc + data, 0);
+                        return value ? Math.round((value * 100) / sum) + "%" : "";
                     },
                     color: '#fff'
                 }
+            }
+        },
+        plugins: [{
+            beforeDraw: function(chart) {
+                let { width, height, ctx } = chart;
+                ctx.save();
+                ctx.font = "bold 16px Arial";
+                ctx.fillStyle = "#333";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(text, width / 2, height / 2.2);
+                ctx.restore();
+            }
+        }]
+    });
+}
+
+// 바 차트 생성 함수
+function createBarChart() {
+    return new Chart(barChartData.ctx, {
+        type: 'bar',
+        data: {
+            labels: barChartData.labels,
+            datasets: [{
+                data: barChartData.data,
+                backgroundColor: barChartData.colors,
+                borderColor: barChartData.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    grid: {display: false},
+                    ticks: {font: {size: 12, weight: "bold"}, color: "#555"}
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: "rgba(200, 200, 200, 0.3)" },
+                    ticks: {font: {size: 12, weight: "bold"}, color: "#555"}
+                }
+            },
+            plugins: {
+                tooltip: { padding: 10},
+                legend: {display: false},
+                datalabels: {display: false}
             }
         }
     });
 }
 
-$(document).ready(function() {
-    loadData();
-});
+// 차트 데이터 초기화
+function resetDoughnutChartData(type) {
+    doughnutChartData[type].labels.length = 0;
+    doughnutChartData[type].data.length = 0;
+    doughnutChartData[type].colors.length = 0;
+}
 
+function resetBarChartData() {
+    barChartData.labels.length = 0;
+    barChartData.data.length = 0;
+}
+
+// 데이터 로드
 function loadData() {
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const startDayOfWeek = firstDayOfMonth.getDay();
     currentMonthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
 
     $.ajax({
         url: `/accounting/getMonthlyData?year=${currentYear}&month=${currentMonth + 1}`,
         method: "GET",
         success: function(data) {
-            // 차트 데이터 초기화
-            incomeLabels.length = 0;
-            incomeData.length = 0;
-            incomeColors.length = 0;
-            expenseLabels.length = 0;
-            expenseData.length = 0;
-            expenseColors.length = 0;
+            ["INCOME", "EXPENSE"].forEach(resetDoughnutChartData);
+            resetBarChartData();
+            // 도넛 차트 데이터
+            let categoryMapData = { INCOME: {}, EXPENSE: {} };
+            // 바 차트 데이터
+            let typeMapData = {INCOME: 0, EXPENSE: 0 };
 
-            if (data.length > 0) {
-                // 기존 데이터 초기화
-                let incomeCategoryMap = {};  // 수입 카테고리별 금액 저장
-                let expenseCategoryMap = {}; // 지출 카테고리별 금액 저장
+            data.forEach(({ type, category, amount }) => {
+                categoryMapData[type][category] = (categoryMapData[type][category] || 0) + amount;
+                typeMapData[type] += amount;
+            });
 
-                data.forEach(accounting => {
-                    const type = accounting.type;
-                    const category = accounting.category;
-                    const amount = accounting.amount;
+            // 수입, 지출별 데이터
+            Object.keys(typeMapData).forEach(type => {
+                barChartData.labels.push(typeMap[type]);
+                barChartData.data.push(typeMapData[type]);
+            });
 
-                    if (type === "INCOME") {
-                        if (!incomeCategoryMap[category]) {
-                            incomeCategoryMap[category] = 0;
-                        }
-                        incomeCategoryMap[category] += amount;
-                    } else if (type === "EXPENSE") {
-                        if (!expenseCategoryMap[category]) {
-                            expenseCategoryMap[category] = 0;
-                        }
-                        expenseCategoryMap[category] += amount;
-                    }
+            // 카테고리별 데이터
+            Object.keys(categoryMapData).forEach(type => {
+                Object.entries(categoryMapData[type]).forEach(([category, amount]) => {
+                    doughnutChartData[type].labels.push(categoryMap[category]);
+                    doughnutChartData[type].data.push(amount);
+                    doughnutChartData[type].colors.push(colorMap[category]);
                 });
+            });
 
-                // 수입 데이터 변환
-                Object.keys(incomeCategoryMap).forEach(category => {
-                    incomeLabels.push(categoryMap[category]); // 한글 카테고리명
-                    incomeData.push(incomeCategoryMap[category]); // 합산된 금액
-                    incomeColors.push(colorMap[category]);
-                });
-
-                // 지출 데이터 변환
-                Object.keys(expenseCategoryMap).forEach(category => {
-                    expenseLabels.push(categoryMap[category]); // 한글 카테고리명
-                    expenseData.push(expenseCategoryMap[category]); // 합산된 금액
-                    expenseColors.push(colorMap[category]);
-                });
-            }
             updateCharts();
         }
     });
@@ -132,62 +137,24 @@ function loadData() {
 
 // 차트 업데이트
 function updateCharts() {
-    if (incomeChart) {
-        incomeChart.destroy(); // 기존 차트 제거
-    }
-    if (expenseChart) {
-        expenseChart.destroy();
-    }
+    ["INCOME", "EXPENSE"].forEach(type => {
+        if (doughnutChartData[type].chart) doughnutChartData[type].chart.destroy();
 
-    // 수입 내역이 없는 경우
-    if (incomeData.length == 0) {
-        var incomeContext = incomeCt.getContext("2d");
-        var msg = "수입 내역이 없습니다.";
-        showMessage(incomeCt, incomeContext, msg);
-    } else {
-        incomeChart = createPieChart(incomeCt, incomeLabels, incomeData, incomeColors);
-    }
+        let ctx = document.getElementById(doughnutChartData[type].ctx).getContext("2d");
 
-    // 지출 내역이 없는 경우
-    if (expenseData.length == 0) {
-        var expenseContext = expenseCt.getContext("2d");
-        var msg = "지출 내역이 없습니다."
-        showMessage(expenseCt, expenseContext, msg);
-    } else {
-        expenseChart = createPieChart(expenseCt, expenseLabels, expenseData, expenseColors);
+        if (doughnutChartData[type].data.length === 0) {
+
+        } else {
+            doughnutChartData[type].chart = createDoughnutChart(ctx.canvas, doughnutChartData[type].labels, doughnutChartData[type].data, doughnutChartData[type].colors, doughnutChartData[type].text);
+        }
+    });
+    if (barChartData.chart) {
+        barChartData.chart.destroy();
     }
+    barChartData.chart = createBarChart();
 }
 
-function showMessage(ct, context, msg) {
-    // 기존 내용 지우기
-    context.clearRect(0, 0, ct.width, ct.height);
-
-    context.setTransform(1, 0, 0, 1, 0, 0); // 스케일 초기화
-    context.scale(dpr, dpr);
-
-    var centerX = (ct.width) / (2 * dpr);
-    var centerY = (ct.height) / (2 * dpr);
-    context.fillStyle = "#bdbdbd";
-    context.textAlign = "center";
-    context.font = "bold 8px Arial";
-    context.fillText(msg, centerX, centerY);
-}
-
-
-prevBtn.addEventListener("click", () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    loadData();
-});
-
-nextBtn.addEventListener("click", () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
+// 초기 데이터 로드
+$(document).ready(function() {
     loadData();
 });
