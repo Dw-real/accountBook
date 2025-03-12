@@ -1,7 +1,5 @@
 Chart.register(ChartDataLabels);
 
-var dpr = window.devicePixelRatio || 1;
-
 // 도넛 차트 데이터 저장 객체
 let doughnutChartData = {
     INCOME: { labels: [], data: [], colors: [], chart: null, ctx: "income-doughnut-chart", text: "수입" },
@@ -19,7 +17,7 @@ function createDoughnutChart(ctx, labels, data, colors, text) {
         type: 'doughnut',
         data: { labels, datasets: [{ backgroundColor: colors, data }]},
         options: {
-            responsive: false,
+            responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 tooltip: { enabled: true, padding: 15, intersect: false },
