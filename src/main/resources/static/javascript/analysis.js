@@ -140,18 +140,38 @@ function updateCharts() {
     ["INCOME", "EXPENSE"].forEach(type => {
         if (doughnutChartData[type].chart) doughnutChartData[type].chart.destroy();
 
-        let ctx = document.getElementById(doughnutChartData[type].ctx).getContext("2d");
+        let doughnutCtx = document.getElementById(doughnutChartData[type].ctx).getContext("2d");
 
         if (doughnutChartData[type].data.length === 0) {
-
+            showNoDataImage(doughnutCtx);
         } else {
-            doughnutChartData[type].chart = createDoughnutChart(ctx.canvas, doughnutChartData[type].labels, doughnutChartData[type].data, doughnutChartData[type].colors, doughnutChartData[type].text);
+            doughnutChartData[type].chart = createDoughnutChart(doughnutCtx.canvas, doughnutChartData[type].labels, doughnutChartData[type].data, doughnutChartData[type].colors, doughnutChartData[type].text);
         }
     });
     if (barChartData.chart) {
         barChartData.chart.destroy();
     }
-    barChartData.chart = createBarChart();
+
+    const isBarChartDataEmpty = barChartData.data.every(item => item === 0);
+    if (barChartData.data.length === 0 || isBarChartDataEmpty) {
+        let barCtx = document.getElementById(barChartData.ctx).getContext("2d");
+        showNoDataImage(barCtx);
+    } else {
+        barChartData.chart = createBarChart();
+    }
+}
+
+function showNoDataImage(ctx) {
+    const imgElement = document.createElement('img');
+    imgElement.src = "/image/no_data.jpg";
+
+    imgElement.addEventListener('load', () => {
+        const chartWidth = ctx.canvas.width;
+        const chartHeight = ctx.canvas.height;
+        const imgWidth = chartWidth;
+        const imgHeight = chartHeight;
+        ctx.drawImage(imgElement, (chartWidth - imgWidth) / 2, (chartHeight - imgHeight) / 2, imgWidth, imgHeight);
+    });
 }
 
 prevBtn.addEventListener("click", () => {

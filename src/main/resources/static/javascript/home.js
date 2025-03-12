@@ -44,8 +44,18 @@ document.getElementById("logIn").addEventListener('click', function() {
 
 // 로그아웃 버튼
 document.getElementById("logout").addEventListener('click', function() {
-    location.href = "/logout";
-    window.location.href = "/";
+    $.ajax({
+        url: "/logout",
+        method: "GET",
+        success: function(response) {
+           // 로그아웃 성공 시 홈 페이지로 이동
+           location.href = "/";
+        },
+        error: function() {
+           // 로그아웃 실패 시 에러 처리
+           alert("로그아웃 실패");
+        }
+    });
 });
 
 // 아이디 찾기 버튼
